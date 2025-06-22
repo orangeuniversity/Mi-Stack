@@ -1,12 +1,8 @@
-# Dockerfile for Python Flask app
-FROM python:3.10-slim
+# Dockerfile for Node.js apps
+FROM node:18-alpine
 
-WORKDIR /app
-
+WORKDIR /usr/src/app
 COPY . .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
+RUN npm install
 EXPOSE 3000
-
-CMD ["python", "app.py"]
+CMD ["node", "server.js"]
