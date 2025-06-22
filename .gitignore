@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+
+# App outputs / logs
+outputs/
+*.log
+
+# Secrets / envs
+.env
+
+# System files
+.DS_Store
