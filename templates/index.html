@@ -558,12 +558,30 @@ project.zip
         `;
       }
       if (type === 'about') {
-        html = `
-          <h3>👤 About Us</h3>
-          <p>Mi-Stack was created by <strong>Missari</strong>, a passionate developer aiming to make Node.js hosting simple and accessible.</p>
-          <p>Our mission is to empower developers to deploy apps in seconds — no hassle, no servers.</p>
-        `;
-      }
+  html = `
+    <h3>👤 About Us</h3>
+    <p>Mi-Stack was created by <strong>Missari</strong>, a passionate developer aiming to make Node.js hosting simple and accessible.</p>
+    <p>Our mission is to empower developers to deploy apps in seconds — no hassle, no servers.</p>
+    <p>
+      <a href="https://www.linkedin.com/in/missari/" target="_blank" style="
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 5px;
+        gap: 8px;
+        font-weight: bold;
+        letter-spacing: 0.8px;
+        color: #0A66C2;
+        transition: all 0.3s ease;
+      " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="22" height="22" style="vertical-align: middle;" />
+        LinkedIn For 🧑🏻‍🚀🚀
+      </a>
+    </p>
+  `;
+}
+
+
       modal.innerHTML = html;
       modalBg.style.display = 'flex';
       setTimeout(() => modal.classList.add('show'), 50);
