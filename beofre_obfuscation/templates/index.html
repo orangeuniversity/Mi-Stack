@@ -4,48 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi-Stack | Host Node.js</title>
-
-  <!-- 
-
-
- _______ _________     _______ _________ _______  _______  _       
-(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
-| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
-| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
-| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
-| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
-| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
-|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
-                                                                   
-
-
-
-🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
-🌍 Mission: Landung auf dem Planeten Merkur  
-👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
-
-🛡️ Alle Rechte vorbehalten © 2025 Missari  
-⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
-
-🔧 Technologie: Containerisierte Sicherheit mit Docker  
-🌐 Zugriff: /app/<uuid>/ für jede Anwendung
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
-🌍 Місія: Посадка на планету Меркурій  
-👩‍🚀 Розробник: Міссарі — готова до старту!
-
-🛡️ Всі права захищені © 2025 Missari  
-⛔ Несанкціонований запуск коду заборонено!
-
-🔧 Технології: Безпечна контейнеризація через Docker  
-🌐 Доступ: /app/<uuid>/ для кожного застосунку
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
--->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -143,10 +101,16 @@
     </div>
   </script>
 
+  <!-- External JS -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://unpkg.com/split-type" defer></script>
-<script src="{{ url_for('static', filename='obf_index/main.js') }}" defer></script>
-<script type="module" src="{{ url_for('static', filename='obf_index/inject.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
+
+<!-- Replace this line -->
+<!-- <script src="{{ url_for('static', filename='inject.js') }}" defer></script> -->
+
+<!-- With this line for module support -->
+<script type="module" src="{{ url_for('static', filename='inject.js') }}"></script>
 
 </body>
 

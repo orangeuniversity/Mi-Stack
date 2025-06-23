@@ -4,48 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi-Stack | Host Node.js</title>
-
-  <!-- 
-
-
- _______ _________     _______ _________ _______  _______  _       
-(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
-| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
-| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
-| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
-| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
-| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
-|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
-                                                                   
-
-
-
-🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
-🌍 Mission: Landung auf dem Planeten Merkur  
-👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
-
-🛡️ Alle Rechte vorbehalten © 2025 Missari  
-⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
-
-🔧 Technologie: Containerisierte Sicherheit mit Docker  
-🌐 Zugriff: /app/<uuid>/ für jede Anwendung
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
-🌍 Місія: Посадка на планету Меркурій  
-👩‍🚀 Розробник: Міссарі — готова до старту!
-
-🛡️ Всі права захищені © 2025 Missari  
-⛔ Несанкціонований запуск коду заборонено!
-
-🔧 Технології: Безпечна контейнеризація через Docker  
-🌐 Доступ: /app/<uuid>/ для кожного застосунку
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
--->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -121,6 +79,21 @@
   <!-- Modal container -->
   <div id="dynamicContent"></div>
 
+  <!-- Templates in script tags -->
+  <script type="text/template" id="preloaderTemplate">
+    <div class="preloader" role="status" aria-live="polite" aria-label="Loading content">
+      <canvas id="starfield"></canvas>
+      <div class="galaxy">
+        <i class="fas fa-star center-star"></i>
+        <div class="orbit orbit1"><div class="planet"></div></div>
+        <div class="orbit orbit2"><div class="planet"></div></div>
+        <div class="orbit orbit3"><div class="planet"></div></div>
+        <div class="orbit orbit4"><div class="planet"></div></div>
+      </div>
+      <div class="progress-container"><div class="progress-bar"></div></div>
+      <div class="percentage">0%</div>
+    </div>
+  </script>
 
   <script type="text/template" id="modalTemplate">
     <div class="modal-bg" id="modalBg">
@@ -143,11 +116,32 @@
     </div>
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-<script src="https://unpkg.com/split-type" defer></script>
-<script src="{{ url_for('static', filename='obf_index/main.js') }}" defer></script>
-<script type="module" src="{{ url_for('static', filename='obf_index/inject.js') }}"></script>
+  <!-- Load Templates Script -->
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      const dynamicDiv = document.getElementById("dynamicContent");
 
+      // Load preloader
+      const preloaderHTML = document.getElementById("preloaderTemplate").innerHTML;
+      document.body.insertAdjacentHTML("afterbegin", preloaderHTML);
+
+      // Load modal
+      const modalHTML = document.getElementById("modalTemplate").innerHTML;
+      dynamicDiv.insertAdjacentHTML("beforeend", modalHTML);
+
+      // If user is guest, insert the guest content
+      const isGuest = document.body.classList.contains("guest-mode");
+      if (isGuest) {
+        const guestHTML = document.getElementById("guestIconsTemplate").innerHTML;
+        document.getElementById("mainContent").innerHTML = guestHTML;
+      }
+    });
+  </script>
+
+  <!-- External JS -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://unpkg.com/split-type" defer></script>
+  <script src="{{ url_for('static', filename='main.js') }}" defer></script>
 </body>
 
 </html>
