@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi-Stack | Host Node.js</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #007acc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .auth-links {
+      text-align: right;
+      padding: 10px 20px;
+    }
+    .auth-links a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: #007acc;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input[type="file"],
+    input[type="text"],
+    input[type="submit"] {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      background: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .delete-btn {
+      background: red;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🚀 Mi-Stack</h1>
+    <p>Host your Node.js app with ZIP or GitHub — Free & Fast</p>
+  </header>
+
+  <div class="auth-links">
+    {% if current_user.is_authenticated %}
+      Logged in as <strong>{{ current_user.email }}</strong>
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    {% endif %}
+  </div>
+
+  {% if current_user.is_authenticated %}
+    <div class="container">
+      <h2>Deploy a New App</h2>
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label>Upload a ZIP file:</label>
+        <input type="file" name="site_zip" accept=".zip" />
+
+        <label>Or enter GitHub repo HTTPS URL:</label>
+        <input type="text" name="github_url" placeholder="https://github.com/username/repo" />
+
+        <input type="submit" value="Upload & Host">
+      </form>
+
+      <h2>Your Running Apps</h2>
+      <table id="apps-table">
+        <thead>
+          <tr>
+            <th>App ID</th>
+            <th>URL</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      async function loadApps() {
+        const res = await fetch('/list-apps');
+        const apps = await res.json();
+        const tbody = document.querySelector('#apps-table tbody');
+        tbody.innerHTML = '';
+        apps.forEach(app => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${app.id}</td>
+              <td><a href="http://${location.hostname}:${app.port}" target="_blank">http://${location.hostname}:${app.port}</a></td>
+              <td><button class="delete-btn" onclick="deleteApp('${app.id}')">Delete</button></td>
+            </tr>
+          `;
+        });
+      }
+
+      async function deleteApp(id) {
+        const res = await fetch('/delete-app/' + id, { method: 'DELETE' });
+        if (res.ok) loadApps();
+        else alert('Delete failed');
+      }
+
+      window.onload = loadApps;
+    </script>
+  {% else %}
+    <div class="container">
+      <h2>Welcome to Mi-Stack</h2>
+      <p>Please <a href="/login">login</a> or <a href="/register">register</a> to start hosting your apps.</p>
+    </div>
+  {% endif %}
+
+</body>
+</html>

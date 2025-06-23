@@ -1,0 +1,15 @@
+{
+    "name": "simple-web-app",
+    "version": "1.0.0",
+    "description": "A simple Node.js + Express app with HTML, CSS, JS frontend",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "author": "Missari",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }
+  
