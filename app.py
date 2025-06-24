@@ -259,6 +259,11 @@ def delete_app(app_id):
     db.session.delete(app_entry)
     db.session.commit()
     return '', 204
+    
+# === Mobile route (UNINDENTED!) ===
+@app.route('/mobile.html')
+def mobile_page():
+    return render_template('mobile.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)

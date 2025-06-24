@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mi-Stack | Host Node.js</title>
-
-  <!-- 
+    <!-- 
 
 
  _______ _________     _______ _________ _______  _______  _       
@@ -57,6 +56,23 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
 </head>
 <body class="{% if not current_user.is_authenticated %}guest-mode{% endif %}">
+  
+  <div class="preloader" role="status" aria-live="polite" aria-label="Loading content">
+    <canvas id="starfield"></canvas>
+    <div class="galaxy">
+      <i class="fas fa-star center-star"></i>
+      <div class="orbit orbit1"><div class="planet"></div></div>
+      <div class="orbit orbit2"><div class="planet"></div></div>
+      <div class="orbit orbit3"><div class="planet"></div></div>
+      <div class="orbit orbit4"><div class="planet"></div></div>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="percentage">0%</div>
+  </div>
+
+  
   <header class="{% if current_user.is_authenticated %}logged-in{% endif %}">
     <h1>
       🚀 
@@ -78,6 +94,7 @@
     </div>
   </header>
 
+  
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="flash-container">
@@ -88,67 +105,62 @@
     {% endif %}
   {% endwith %}
 
-  <main id="mainContent">
-    {% if current_user.is_authenticated %}
-    <div class="container">
-      <h2>Deploy a New App</h2>
-      <form action="{{ url_for('upload_zip') }}" method="POST" enctype="multipart/form-data">
-        <label>Upload a ZIP file:</label>
-        <input type="file" name="site_zip" accept=".zip" />
+  
+  <main>
+    {% if not current_user.is_authenticated %}
+      <div class="container">
+        <h2>Welcome to Mi-Stack</h2>
+        <div class="icon-row">
+          <img src="https://cdn-icons-png.flaticon.com/512/1055/1055710.png"
+               title="How it works" onclick="openModal('how')"/>
+          <img src="https://cdn-icons-png.flaticon.com/512/2910/2910797.png"
+               title="ZIP example" onclick="openModal('zip')"/>
+          <img src="https://cdn-icons-png.flaticon.com/512/1995/1995522.png"
+               title="About us" onclick="openModal('about')"/>
+        </div>
+        <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to start hosting your apps.</p>
+      </div>
+    {% else %}
+      <div class="container">
+        <h2>Deploy a New App</h2>
+        <form action="{{ url_for('upload_zip') }}" method="POST" enctype="multipart/form-data">
+          <label>Upload a ZIP file:</label>
+          <input type="file" name="site_zip" accept=".zip" />
 
-        <label>Or enter GitHub repo HTTPS URL:</label>
-        <input type="text" name="github_url" placeholder="https://github.com/username/repo" />
+          <label>Or enter GitHub repo HTTPS URL:</label>
+          <input type="text" name="github_url" placeholder="https://github.com/username/repo" />
 
-        <input type="submit" value="Upload & Host" onclick="showUploadSpinner()">
-        <div class="upload-spinner" id="uploadSpinner"></div>
-      </form>
+          <input type="submit" value="Upload & Host" onclick="showUploadSpinner()">
+          <div class="upload-spinner" id="uploadSpinner"></div>
+        </form>
 
-      <h2>Your Running Apps</h2>
-      <table id="apps-table">
-        <thead>
-          <tr>
-            <th>App ID</th>
-            <th>URL</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+        <h2>Your Running Apps</h2>
+        <table id="apps-table">
+          <thead>
+            <tr>
+              <th>App ID</th>
+              <th>URL</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     {% endif %}
   </main>
 
-  <!-- Modal container -->
-  <div id="dynamicContent"></div>
+  
+  <div class="modal-bg" id="modalBg">
+    <div class="modal" id="modalContent"></div>
+  </div>
 
 
-  <script type="text/template" id="modalTemplate">
-    <div class="modal-bg" id="modalBg">
-      <div class="modal" id="modalContent"></div>
-    </div>
-  </script>
 
-  <script type="text/template" id="guestIconsTemplate">
-    <div class="container">
-      <h2>Welcome to Mi-Stack</h2>
-      <div class="icon-row">
-        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055710.png"
-             title="How it works" onclick="openModal('how')"/>
-        <img src="https://cdn-icons-png.flaticon.com/512/2910/2910797.png"
-             title="ZIP example" onclick="openModal('zip')"/>
-        <img src="https://cdn-icons-png.flaticon.com/512/1995/1995522.png"
-             title="About us" onclick="openModal('about')"/>
-      </div>
-      <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to start hosting your apps.</p>
-    </div>
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-<script src="https://unpkg.com/split-type" defer></script>
-<script src="{{ url_for('static', filename='obf_index/main.js') }}" defer></script>
-<script type="module" src="{{ url_for('static', filename='obf_index/inject.js') }}"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
+  <script src="{{ url_for('static', filename='obf_index/modal.js') }}"></script>
+  <script src="{{ url_for('static', filename='obf_index/preloader.js') }}"></script>
+  <script src="{{ url_for('static', filename='obf_index/apps.js') }}"></script>
+  <script src="{{ url_for('static', filename='MobileView.js') }}"></script>
 </body>
-
 </html>
-
