@@ -1,0 +1,4 @@
+source venv/bin/activate
+
+type "run" to run in local host
+type "runtest" to do QA

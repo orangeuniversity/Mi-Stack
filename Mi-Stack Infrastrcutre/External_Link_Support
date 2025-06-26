@@ -1,0 +1,6 @@
+
+<link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+
+<link rel="icon" href="{{ url_for('static', filename='fav.png') }}">

@@ -1,0 +1,9 @@
+venv
+__pycache__
+*.pyc
+uploads
+docker_apps
+beofre_obfuscation
+*.sqlite3
+*.db
+

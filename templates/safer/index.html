@@ -204,41 +204,13 @@
     /* ===== End GSAP Preloader Styles ===== */
 
     header {
-  background: rgba(0, 122, 204, 0.8);
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-
-  /* Layered blue glowing shadow */
-  box-shadow: 
-    0 2px 4px rgba(0, 122, 204, 0.3),
-    0 4px 8px rgba(0, 122, 204, 0.3),
-    0 8px 16px rgba(0, 122, 204, 0.2),
-    0 12px 24px rgba(0, 122, 204, 0.15),
-    0 16px 32px rgba(0, 122, 204, 0.1);
-
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 70px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-
-  /* Animation settings */
-  animation: slideFromTop 0.6s ease-out;
-}
-
-@keyframes slideFromTop {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-
+      background: rgba(0,122,204,0.8);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
     header.logged-in {
       text-align: left;
     }
@@ -317,7 +289,7 @@
       text-align: left;
     }
     .delete-btn {
-      background: rgba(255, 0, 0, 0.925);
+      background: red;
       color: white;
       padding: 6px 12px;
       border: none;
@@ -330,98 +302,15 @@
       gap: 40px;
       margin: 20px 0;
     }
- 
-    
-    @keyframes slideFromLeft {
-  from {
-    transform: translateX(-150%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideFromBottom {
-  from {
-    transform: translateY(150%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideFromRight {
-  from {
-    transform: translateX(150%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-
-/* Entry Animations */
-.icon-row img {
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-
-/* Entry Animations */
-.icon-row img:first-child {
-  animation: slideFromLeft 1s ease-out forwards;
-}
-.icon-row img:nth-child(2) {
-  animation: slideFromBottom 1s ease-out forwards;
-  animation-delay: 0.3s;
-}
-.icon-row img:nth-child(3) {
-  animation: slideFromRight 1s ease-out forwards;
-  animation-delay: 0.6s;
-}
-
-/* Hover scale applied only AFTER animation ends */
-.icon-row img:hover {
-  animation-play-state: paused; /* pause entry animation */
-  transform: translate(0,0) scale(1.5) !important;
-  transition: transform 0.3s ease;
-}
-
-/*flying heart*/
-@keyframes flyUpFade {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100px) scale(1.2);
-  }
-}
-
-.flying-heart {
-  position: absolute;
-  color: purple;
-  font-size: 16px;
-  pointer-events: none;
-  user-select: none;
-  animation: flyUpFade 2s ease forwards;
-  z-index: 10;
-}
-
-
-
-
-
+    .icon-row img {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      transition: transform .3s;
+    }
+    .icon-row img:hover {
+      transform: scale(1.5);
+    }
     .modal-bg {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -657,113 +546,39 @@
         `;
       });
     }
-  
     async function deleteApp(id) {
       const res = await fetch('/delete-app/' + id, { method: 'DELETE' });
       if (res.ok) loadApps();
       else alert('Delete failed');
     }
   
-    // Utility: preload an image and resolve on load/error
-    function preloadImage(url) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-      });
-    }
-  
-    // Preloader and background image logic
-    window.addEventListener('load', async () => {
-  const MIN_PRELOADER_TIME = 3000; // 3 seconds min
-  const PRELOADER_FADE_TIME = 600; // preloader fade out animation time in ms
-  const PROGRESS_ANIMATION_TIME = 3000; // progress bar animates 0 to 100 in 3s
-
-  const preloader = document.querySelector('.preloader');
-  const progressBar = document.querySelector('.preloader .progress-bar');
-  const percEl = document.querySelector('.preloader .percentage');
-  const startTime = performance.now();
-
+    window.onload = () => {
   {% if current_user.is_authenticated %}
-    await loadApps();
-
-    document.body.style.backgroundImage = '';
-    document.body.style.backgroundColor = '#FFF';
-
+  loadApps();
+  // Authenticated user sees deployment container → disable background images
+  document.body.style.backgroundImage = '';
+  document.body.style.backgroundColor = '#FFF'; // or any neutral color you prefer
+  document.querySelector('.preloader')?.classList.add('hidden');
+  document.body.classList.add('preloader-done');
   {% else %}
-    const totalImages = 3;
-    const randomNumber = Math.floor(Math.random() * totalImages) + 1;
-    const bgImage = "{{ url_for('static', filename='ui_ux/image') }}" + randomNumber + ".jpg";
-
-    await Promise.race([
-      preloadImage(bgImage),
-      new Promise(resolve => setTimeout(resolve, 5000))
-    ]);
-
-    document.body.style.backgroundImage = `url('${bgImage}')`;
-    document.body.style.backgroundColor = '';
+  // Guest user → set random background image from 5 static images immediately
+  setRandomBackgroundImage();
   {% endif %}
+};
 
-  // Calculate elapsed time for minimum preloader duration
-  const elapsed = performance.now() - startTime;
-  const remainingTime = Math.max(0, MIN_PRELOADER_TIME - elapsed);
-
-  // Wait remaining time to ensure preloader visible at least 3 seconds
-  setTimeout(() => {
-    // Start animating progress bar from 0 to 100 over PROGRESS_ANIMATION_TIME
-    if (!progressBar || !percEl) {
-      // If elements not found, just hide preloader immediately
-      if (preloader) {
-        preloader.classList.add('hidden');
-        document.body.classList.add('preloader-done');
-      }
-      return;
-    }
-
-    let progress = 0;
-    const startProgressTime = performance.now();
-
-    function animateProgress() {
-      const now = performance.now();
-      const elapsedProgress = now - startProgressTime;
-      progress = Math.min(100, (elapsedProgress / PROGRESS_ANIMATION_TIME) * 100);
-
-      progressBar.style.width = progress + '%';
-      percEl.textContent = Math.floor(progress) + '%';
-
-      if (progress < 100) {
-        requestAnimationFrame(animateProgress);
-      } else {
-        // Progress complete, fade out preloader
-        preloader.classList.add('hidden');
-        document.body.classList.add('preloader-done');
-        // Optionally remove preloader from DOM after fadeout
-        setTimeout(() => {
-          if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
-        }, PRELOADER_FADE_TIME);
-      }
-    }
-
-    animateProgress();
-
-  }, remainingTime);
-});
 
   
-    // Modal variables and functions
     const modalBg = document.getElementById('modalBg');
     const modal = document.getElementById('modalContent');
-  
     function openModal(type) {
       let html = '';
       if (type === 'how') {
         html = `
-          <div class="glass-buttons">
-            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
-          </div>
+        <div class="glass-buttons">
+          <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+        </div>
           <h3>🛠️ How Mi-Stack Works</h3>
           <p>Deploy any Node.js app easily: upload a ZIP or provide GitHub repo URL.</p>
           <ol>
@@ -776,68 +591,68 @@
       }
       if (type === 'zip') {
         html = `
-          <div class="glass-buttons">
-            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
-          </div>
-          <h3>📦 ZIP File Structure</h3>
-          <p>Ensure your <code>project.zip</code> has this format:</p>
-          <pre style="background:#f9f9f9;padding:15px;border-radius:8px;overflow:auto;">
-    project.zip
-    ├── server.js
-    ├── package.json
-    └── public/
-        ├── index.html
-        ├── style.css
-        └── script.js
-          </pre>
-          <p><strong>Why is <code>package.json</code> required?</strong></p>
-          <p>
-            The <code>package.json</code> file defines your app’s dependencies and scripts.<br/>
-            Make sure it includes a <code>"start"</code> script like this:
-          </p>
-          <pre style="background:#f4f4f4;padding:10px;border-left:4px solid #007acc;">
-    {
-      "name": "my-app",
-      "version": "1.0.0",
-      "main": "server.js",
-      "scripts": {
-        "start": "node server.js"
-      },
-      "dependencies": {
-        "express": "^4.18.2"
-      }
+        <div class="glass-buttons">
+          <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+        </div>
+        <h3>📦 ZIP File Structure</h3>
+        <p>Ensure your <code>project.zip</code> has this format:</p>
+        <pre style="background:#f9f9f9;padding:15px;border-radius:8px;overflow:auto;">
+  project.zip
+  ├── server.js
+  ├── package.json
+  └── public/
+      ├── index.html
+      ├── style.css
+      └── script.js
+        </pre>
+        <p><strong>Why is <code>package.json</code> required?</strong></p>
+        <p>
+          The <code>package.json</code> file defines your app’s dependencies and scripts.<br/>
+          Make sure it includes a <code>"start"</code> script like this:
+        </p>
+        <pre style="background:#f4f4f4;padding:10px;border-left:4px solid #007acc;">
+  {
+    "name": "my-app",
+    "version": "1.0.0",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
     }
-          </pre>
+  }
+        </pre>
         `;
       }
       if (type === 'about') {
         html = `
-          <div class="glass-buttons">
-            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
-            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
-          </div>
-          <h3>👤 About Us</h3>
-          <p>Mi-Stack was created by <strong>Missari</strong>, a passionate developer aiming to make Node.js hosting simple and accessible.</p>
-          <p>Our mission is to empower developers to deploy apps in seconds — no hassle, no servers.</p>
-          <p>
-            <a href="https://www.linkedin.com/company/mi-stack/" target="_blank" style="
-              text-decoration: none;
-              display: inline-flex;
-              align-items: center;
-              margin-top: 5px;
-              gap: 8px;
-              font-weight: bold;
-              letter-spacing: 0.8px;
-              color: #0A66C2;
-              transition: all 0.3s ease;
-            " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-              <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="22" height="22" style="vertical-align: middle;" />
-              LinkedIn For Mi-Stack🧑🏻‍🚀🚀
-            </a>
-          </p>
+        <div class="glass-buttons">
+          <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+          <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+        </div>
+        <h3>👤 About Us</h3>
+        <p>Mi-Stack was created by <strong>Missari</strong>, a passionate developer aiming to make Node.js hosting simple and accessible.</p>
+        <p>Our mission is to empower developers to deploy apps in seconds — no hassle, no servers.</p>
+        <p>
+          <a href="https://www.linkedin.com/company/mi-stack/" target="_blank" style="
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 5px;
+            gap: 8px;
+            font-weight: bold;
+            letter-spacing: 0.8px;
+            color: #0A66C2;
+            transition: all 0.3s ease;
+          " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="22" height="22" style="vertical-align: middle;" />
+            LinkedIn For Mi-Stack🧑🏻‍🚀🚀
+          </a>
+        </p>
         `;
       }
       modal.innerHTML = html;
@@ -857,165 +672,143 @@
       setTimeout(() => (modalBg.style.display = 'none'), 200);
     }
   
-    // STARFIELD ANIMATION
-    (function () {
-      const canvas = document.getElementById('starfield');
-      const ctx = canvas.getContext('2d');
-      let w, h;
-      let stars = [];
+    // === Preloader + background fetch logic ===
+    function setRandomBackgroundImage() {
+  const totalImages = 5;
+  const randomNumber = Math.floor(Math.random() * totalImages) + 1;
+  // Use Flask's url_for to get static path
+  const bgImage = "{{ url_for('static', filename='images/image') }}" + randomNumber + ".jpg";
+  document.body.style.backgroundImage = "url('" + bgImage + "')";
+  document.body.style.backgroundColor = '';
+  // Hide the preloader immediately (no loading animation)
+  document.querySelector('.preloader')?.classList.add('hidden');
+  document.body.classList.add('preloader-done');
+}
+
   
-      function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        initStars();
-      }
+      // STARFIELD ANIMATION
+      (function () {
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        let stars = [];
   
-      function initStars() {
-        stars = [];
-        const count = Math.floor((w * h) / 8000);
-        for (let i = 0; i < count; i++) {
-          stars.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: Math.random() * 1.2 + 0.3,
-            phase: Math.random() * Math.PI * 2,
-            speed: Math.random() * 0.0005 + 0.0002,
+        function resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+          initStars();
+        }
+        function initStars() {
+          stars = [];
+          const count = Math.floor((w * h) / 8000);
+          for (let i = 0; i < count; i++) {
+            stars.push({
+              x: Math.random() * w,
+              y: Math.random() * h,
+              r: Math.random() * 1.2 + 0.3,
+              phase: Math.random() * Math.PI * 2,
+              speed: Math.random() * 0.0005 + 0.0002,
+            });
+          }
+        }
+        let lastTime = 0;
+        function animateStars(time) {
+          const delta = time - lastTime;
+          lastTime = time;
+          ctx.clearRect(0, 0, w, h);
+          stars.forEach(s => {
+            s.phase += s.speed * delta;
+            const alpha = 0.5 + 0.5 * Math.sin(s.phase);
+            ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
           });
+          requestAnimationFrame(animateStars);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        requestAnimationFrame(animateStars);
+      })();
+  
+      // PROGRESS LOGIC
+      function updateProgress(p) {
+        const clamped = Math.max(0, Math.min(100, p));
+        const bar = document.querySelector('.preloader .progress-bar');
+        const percEl = document.querySelector('.preloader .percentage');
+        const pre = document.querySelector('.preloader');
+        if (!bar || !percEl || !pre) return;
+        bar.style.width = clamped + '%';
+        percEl.textContent = clamped + '%';
+        if (clamped >= 100) {
+          setTimeout(() => {
+            pre.classList.add('hidden');
+            setTimeout(() => {
+              if (pre.parentNode) pre.parentNode.removeChild(pre);
+            }, 600);
+          }, 300);
         }
       }
   
-      let lastTime = 0;
+      // DEMO: simulate loading progress (optional, you can remove or replace this)
+      // It's better to remove this because actual fetch progress is tracked above
+      /*
+      document.addEventListener("DOMContentLoaded", () => {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 20;
+          updateProgress(progress);
+          if (progress >= 100) clearInterval(interval);
+        }, 400);
+      });
+      */
   
-      function animateStars(time) {
-        const delta = time - lastTime;
-        lastTime = time;
-        ctx.clearRect(0, 0, w, h);
-        stars.forEach(s => {
-          s.phase += s.speed * delta;
-          const alpha = 0.5 + 0.5 * Math.sin(s.phase);
-          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fill();
-        });
-        requestAnimationFrame(animateStars);
+      function playCompletion() {
+        const tl = gsap.timeline();
+        tl.to('.loading-text.initial', {
+          y: '-100%',
+          duration: 0.5,
+          ease: 'power2.inOut',
+        })
+          .to(
+            '.loading-text.complete',
+            {
+              y: '0%',
+              duration: 0.5,
+              ease: 'power2.inOut',
+            },
+            '<'
+          )
+          .to(
+            completeText.chars,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.3,
+              stagger: 0.03,
+              ease: 'power2.out',
+            },
+            '<0.2'
+          )
+          .to(
+            '.preloader',
+            {
+              y: '-100vh',
+              duration: 1,
+              ease: 'power2.inOut',
+              delay: 0.8,
+            }
+          )
+          .set('body', { className: '+=preloader-done' }, '-=0.5')
+          .set('.preloader', { display: 'none' });
       }
+    
+    // === End Preloader logic ===
   
-      window.addEventListener('resize', resize);
-      resize();
-      requestAnimationFrame(animateStars);
-    })();
-  
-    // PROGRESS LOGIC
-    function updateProgress(p) {
-      const clamped = Math.max(0, Math.min(100, p));
-      const bar = document.querySelector('.preloader .progress-bar');
-      const percEl = document.querySelector('.preloader .percentage');
-      const pre = document.querySelector('.preloader');
-      if (!bar || !percEl || !pre) return;
-      bar.style.width = clamped + '%';
-      percEl.textContent = clamped + '%';
-      if (clamped >= 100) {
-        setTimeout(() => {
-          pre.classList.add('hidden');
-          setTimeout(() => {
-            if (pre.parentNode) pre.parentNode.removeChild(pre);
-          }, 600);
-        }, 300);
-      }
-    }
-  
-    // Optional demo loading progress simulation (commented out)
-    /*
-    document.addEventListener("DOMContentLoaded", () => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 20;
-        updateProgress(progress);
-        if (progress >= 100) clearInterval(interval);
-      }, 400);
-    });
-    */
-  
-    function playCompletion() {
-      const tl = gsap.timeline();
-      tl.to('.loading-text.initial', {
-        y: '-100%',
-        duration: 0.5,
-        ease: 'power2.inOut',
-      })
-        .to(
-          '.loading-text.complete',
-          {
-            y: '0%',
-            duration: 0.5,
-            ease: 'power2.inOut',
-          },
-          '<'
-        )
-        .to(
-          completeText.chars,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.3,
-            stagger: 0.03,
-            ease: 'power2.out',
-          },
-          '<0.2'
-        )
-        .to(
-          '.preloader',
-          {
-            y: '-100vh',
-            duration: 1,
-            ease: 'power2.inOut',
-            delay: 0.8,
-          }
-        )
-        .set('body', { className: '+=preloader-done' }, '-=0.5')
-        .set('.preloader', { display: 'none' });
-    }
-  
-    // Spinner Circle JS
+    /* Spinner Circle JS */
     function showUploadSpinner() {
       document.getElementById('uploadSpinner').style.display = 'block';
     }
-  
-    // Flying Heart Animation
-    function createFlyingHeart(icon) {
-      const heart = document.createElement('div');
-      heart.className = 'flying-heart';
-      heart.textContent = '💜'; // purple heart emoji
-  
-      // Position the heart near the icon randomly within the icon bounds
-      const rect = icon.getBoundingClientRect();
-      const x = rect.left + rect.width / 2 + (Math.random() * 20 - 10);
-      const y = rect.top + rect.height / 2 + (Math.random() * 20 - 10);
-  
-      heart.style.left = `${x}px`;
-      heart.style.top = `${y}px`;
-  
-      document.body.appendChild(heart);
-  
-      // Remove heart after animation completes
-      heart.addEventListener('animationend', () => heart.remove());
-    }
-  
-    function startRandomFlyingHearts() {
-      const icons = document.querySelectorAll('.icon-row img');
-      setInterval(() => {
-        // Pick random icon
-        const icon = icons[Math.floor(Math.random() * icons.length)];
-        createFlyingHeart(icon);
-      }, 3000); // every 3 seconds
-    }
-  
-    // Start flying hearts when page loads
-    window.addEventListener('load', () => {
-      startRandomFlyingHearts();
-    });
-  
   </script>
   
 </body>

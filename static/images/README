@@ -1,0 +1,19 @@
+missari@missy:~/Pictures/wallpaper/tt$ # Initialize counter
+i=1
+
+# Loop through all files
+for file in *; do
+    # Get the file extension
+    ext="${file##*.}"
+    
+    # Rename the file
+    mv -- "$file" "image${i}.${ext}"
+    
+    # Increment counter
+    i=$((i + 1))
+done
+missari@missy:~/Pictures/wallpaper/tt$ 
+
+===
+
+images name change

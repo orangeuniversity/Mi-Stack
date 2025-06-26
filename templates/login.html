@@ -1,105 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-  <title>Login - Mi-Stack</title>
-
-  <!-- 
-
-
- _______ _________     _______ _________ _______  _______  _       
-(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
-| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
-| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
-| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
-| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
-| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
-|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
-                                                                   
-
-
-
-🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
-🌍 Mission: Landung auf dem Planeten Merkur  
-👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
-
-🛡️ Alle Rechte vorbehalten © 2025 Missari  
-⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
-
-🔧 Technologie: Containerisierte Sicherheit mit Docker  
-🌐 Zugriff: /app/<uuid>/ für jede Anwendung
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
-🌍 Місія: Посадка на планету Меркурій  
-👩‍🚀 Розробник: Міссарі — готова до старту!
-
-🛡️ Всі права захищені © 2025 Missari  
-⛔ Несанкціонований запуск коду заборонено!
-
-🔧 Технології: Безпечна контейнеризація через Docker  
-🌐 Доступ: /app/<uuid>/ для кожного застосунку
-
-––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
--->
-
-  <!-- Font Awesome for star icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <link rel="icon" href="{{ url_for('static', filename='fav.png') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
-
-  <!-- GSAP + SplitType -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/split-type"></script>
+<title>Login - Mi-Stack</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="icon" href="{{ url_for('static', filename='fav.png') }}">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+.glass-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+.glass-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 2;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    z-index: 2;
+}
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+input:focus {
+    border-color: #007acc;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.3);
+}
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #007acc, #0056b3);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 122, 204, 0.3);
+    position: relative;
+    z-index: 2;
+}
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 122, 204, 0.4);
+}
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+a:hover {
+    color: #fc0;
+    text-decoration: underline;
+}
+.flash {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 2;
+}
+.flash.warning {
+    background: #e65c00;
+    color: #000000f8;
+}
+.flash.success {
+    background: rgba(0, 255, 0, 0.2);
+    color: #fff;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.glass-container {
+    animation: fadeIn 0.5s ease forwards;
+}
+</style>
 </head>
 <body>
-
-  <!-- Preloader -->
-  <div class="preloader">
-    <canvas id="starfield"></canvas>
-    <div class="galaxy">
-      <i class="fas fa-star center-star"></i>
-      <div class="orbit orbit1"><div class="planet"></div></div>
-      <div class="orbit orbit2"><div class="planet"></div></div>
-      <div class="orbit orbit3"><div class="planet"></div></div>
-      <div class="orbit orbit4"><div class="planet"></div></div>
-    </div>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
-    </div>
-    <div class="percentage">0%</div>
-  </div>
-  <div class="overlay"></div>
-
-
-  <div class="glass-container">
+<div class="overlay"></div>
+<div class="glass-container">
     <h2>Login to Mi-Stack</h2>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, msg in messages %}
-          <div class="flash {{ category }}">{{ msg }}</div>
-        {% endfor %}
-      {% endif %}
+    {% if messages %}
+    {% for category, msg in messages %}
+    <div class="flash {{ category }}">{{ msg }}</div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
-
     <form method="POST">
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
     </form>
-
     <a href="{{ url_for('register') }}">Don't have an account? Register</a>
-  </div>
+</div>
 
-  <script src="{{ url_for('static', filename='obf_login/set-bg.js') }}"></script>
-  <script src="{{ url_for('static', filename='obf_login/preloader.js') }}"></script>
-  <script src="{{ url_for('static', filename='obf_login/login-animations.js') }}"></script>
-
+<script>
+// Randomly choose a background from 1 to 5
+const totalImages = 5;
+const randomNumber = Math.floor(Math.random() * totalImages) + 1;
+const bgImage = "{{ url_for('static', filename='images/image') }}" + randomNumber + ".jpg";
+document.body.style.backgroundImage = "url('" + bgImage + "')";
+</script>
 </body>
 </html>
