@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+import re
 
 # --- Setup ---
 app = Flask(__name__)
@@ -46,33 +47,113 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# --- Routes ---
+
+def is_password_strong(password):
+    if len(password) < 5:
+        return False
+    if not re.search(r'[A-Za-z]', password):  # at least one letter
+        return False
+    if not re.search(r'\d', password):        # at least one digit
+        return False
+    if not re.search(r'[^A-Za-z0-9]', password):  # at least one special char
+        return False
+    return True
+
+
+@app.before_request
+def redirect_mobile_users():
+    mobile_keywords = [
+        'mobi', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'iemobile', 'opera mini',
+        'samsung', 'oppo', 'vivo', 'redmi', 'xiaomi', 'huawei', 'oneplus', 'realme', 'lenovo',
+        'meizu', 'zte', 'nokia', 'motorola', 'sony', 'lg'
+    ]
+    ua = request.headers.get('User-Agent', '').lower()
+
+    # Skip redirect for static files and mobile page itself to avoid loops
+    if request.path.startswith('/static') or request.path == '/mobile.html':
+        return
+
+    if any(keyword in ua for keyword in mobile_keywords):
+        # Redirect mobile users to the mobile.html page
+        return redirect(url_for('mobile_page'))
+
+
 @app.route('/')
 def index():
+    ua = request.headers.get('User-Agent', '').lower()
+
+    # Enhanced mobile detection keywords
+    mobile_keywords = [
+        'mobi', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'iemobile', 'opera mini',
+        # Added explicit brand keywords (common substrings in user agents)
+        'samsung', 'oppo', 'vivo', 'redmi', 'xiaomi', 'huawei', 'oneplus', 'realme', 'lenovo',
+        'meizu', 'zte', 'nokia', 'motorola', 'sony', 'lg'
+    ]
+
+    # Check if any keyword matches
+    if any(keyword in ua for keyword in mobile_keywords):
+        return render_template('mobile.html')
+
     return render_template('index.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Normalize email
-        email = request.form['email'].strip().lower()
-        password_raw = request.form['password']
-        # Check duplicate
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered. Please log in or use a different email.', 'warning')
-            return render_template('register.html')
-        # Create user
+        email = request.form.get('email', '').strip().lower()
+        password_raw = request.form.get('password', '')
+        confirm_password = request.form.get('confirm_password', '')
+
+        if email and User.query.filter_by(email=email).first():
+            return "This account already exists. Please login or use a different email.", 409
+
+        if not email or not password_raw or not confirm_password:
+            return "Missing required fields.", 400
+
+        if password_raw != confirm_password:
+            return "Passwords do not match.", 400
+
+        if not is_password_strong(password_raw):
+            return (
+                    """Password is too weak.
+                    It must have at least 5 characters, including:
+                    - at least one letter (uppercase or lowercase)
+                    - at least one digit
+                    - at least one special character.""",
+        400
+    )
+
+
+
         hashed = generate_password_hash(password_raw)
         user = User(email=email, password=hashed)
         db.session.add(user)
         db.session.commit()
-        flash('Account created successfully! Please log in.', 'success')
-        return redirect(url_for('login'))
+
+        return "Account created successfully!", 200
+
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # Check if JSON/AJAX request via Accept header
+        if request.headers.get('Accept') == 'application/json':
+            email = request.form.get('email', '').strip().lower()
+            password_raw = request.form.get('password', '')
+            user = User.query.filter_by(email=email).first()
+
+            if not user:
+                return jsonify({"error": "User not found or invalid email."}), 404
+
+            if not check_password_hash(user.password, password_raw):
+                return jsonify({"error": "Incorrect password."}), 401
+
+            login_user(user)
+            return jsonify({"success": True}), 200
+
+        # Fallback to normal form submit for non-AJAX
         email = request.form['email'].strip().lower()
         password_raw = request.form['password']
         user = User.query.filter_by(email=email).first()
@@ -81,13 +162,18 @@ def login():
             return redirect(url_for('index'))
         else:
             flash('Invalid credentials.', 'warning')
+
     return render_template('login.html')
+    
+
+
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -215,12 +301,14 @@ def upload_zip():
     </body></html>
     '''
 
+
 @app.route('/list-apps')
 @login_required
 def list_apps():
     apps = HostedApp.query.filter_by(user_id=current_user.id).all()
     # Return container_id as ID so front-end can call delete-app/<container_id>
     return jsonify([{"id": a.container_id, "port": a.port} for a in apps])
+
 
 @app.route('/delete-app/<app_id>', methods=['DELETE'])
 @login_required
@@ -260,5 +348,13 @@ def delete_app(app_id):
     db.session.commit()
     return '', 204
 
+
+# === Mobile route (UNINDENTED!) ===
+@app.route('/mobile.html')
+def mobile_page():
+    return render_template('mobile.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
+
