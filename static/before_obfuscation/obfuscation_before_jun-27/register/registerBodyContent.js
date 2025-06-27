@@ -33,7 +33,7 @@
   form.method = 'POST';
 
   // Helper to create input with wrapper and toggle button
-  function createInputWithToggle({name, placeholder, type = 'password'}) {
+  function createInputWithToggle({ name, placeholder, type = 'password' }) {
     const wrapper = document.createElement('div');
     wrapper.className = 'input-wrapper';
 
@@ -207,6 +207,7 @@
     const username = usernameInput.value.trim();
     const email = emailInput.value.trim().toLowerCase();
     const password = inputPassword.value;
+    const confirm_password = inputConfirm.value;
 
     try {
       const response = await fetch(window.registerApiUrl, {
@@ -215,7 +216,12 @@
           'Content-Type': 'application/x-www-form-urlencoded',
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: new URLSearchParams({ username, email, password }),
+        body: new URLSearchParams({
+          username,
+          email,
+          password,
+          confirm_password
+        }),
       });
 
       const text = await response.text();

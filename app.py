@@ -49,18 +49,16 @@ def load_user(user_id):
 
 
 def is_password_strong(password):
-    # Basic checks for strength: length >=8, uppercase, lowercase, digit, special char
-    if len(password) < 8:
+    if len(password) < 5:
         return False
-    if not re.search(r'[a-z]', password):
+    if not re.search(r'[A-Za-z]', password):  # at least one letter
         return False
-    if not re.search(r'[A-Z]', password):
+    if not re.search(r'\d', password):        # at least one digit
         return False
-    if not re.search(r'\d', password):
-        return False
-    if not re.search(r'[^A-Za-z0-9]', password):
+    if not re.search(r'[^A-Za-z0-9]', password):  # at least one special char
         return False
     return True
+
 
 @app.before_request
 def redirect_mobile_users():
@@ -102,28 +100,31 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Expecting AJAX form submission
         email = request.form.get('email', '').strip().lower()
         password_raw = request.form.get('password', '')
         confirm_password = request.form.get('confirm_password', '')
 
-        # Check duplicate email first (only if email present)
         if email and User.query.filter_by(email=email).first():
             return "This account already exists. Please login or use a different email.", 409
 
-        # Then validate required fields
         if not email or not password_raw or not confirm_password:
             return "Missing required fields.", 400
 
-        # Check password confirmation
         if password_raw != confirm_password:
             return "Passwords do not match.", 400
 
-        # Check password strength
         if not is_password_strong(password_raw):
-            return "Password is too weak. Use 8+ chars with uppercase, lowercase, number, and special character.", 400
+            return (
+                    """Password is too weak.
+                    It must have at least 5 characters, including:
+                    - at least one letter (uppercase or lowercase)
+                    - at least one digit
+                    - at least one special character.""",
+        400
+    )
 
-        # Create user
+
+
         hashed = generate_password_hash(password_raw)
         user = User(email=email, password=hashed)
         db.session.add(user)
@@ -131,7 +132,6 @@ def register():
 
         return "Account created successfully!", 200
 
-    # GET request - render registration page
     return render_template('register.html')
 
 

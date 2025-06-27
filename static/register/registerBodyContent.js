@@ -1,1 +1,251 @@
-function a0_0x2ef3(){const _0x380bcf=['indexUrl','body','Username','setAttribute','instruction-box\x20','glass-container','confirm_password','49955LvLHxf','submit','toLowerCase','click','2194542ZJaHZP','type','includes','Already\x20have\x20an\x20account?\x20Log\x20in','Hide\x20password','width','401155WKzpWu','👁️','email','loginUrl','758709OpvwzX','success','addEventListener','instruction-box','input','error','checkValidity','required','385912sDgyPY','name','placeholder','none','appendChild','This\x20account\x20already\x20exists.\x20Please\x20login\x20or\x20use\x20a\x20different\x20email.','rocket-home','application/x-www-form-urlencoded','backgroundColor','textContent','username','trim','Password\x20is\x20too\x20weak.','201500OygRwi','1436064GiMkei','/login','disabled','display','password','className','form','length','password-toggle','Password\x20is\x20too\x20weak','XMLHttpRequest','Register','Email\x20already\x20registered','Confirm\x20Password','div','Go\x20to\x20Home','test','autocomplete','href','Password','input-wrapper','preventDefault','red','createElement','Password\x20is\x20too\x20weak.\x20Use\x208+\x20chars,\x20mix\x20of\x20uppercase,\x20lowercase,\x20numbers,\x20and\x20symbols.','<img\x20src=\x22https://img.icons8.com/?size=100&id=VxghLA7bZMVU&format=png&color=000000\x22\x20alt=\x22Rocket\x20Icon\x22\x20/>','new-password','Show\x20password','👁️‍🗨️','Registration\x20failed.','innerHTML','Passwords\x20do\x20not\x20match.','42vvLlED','aria-label','button','method','location','style','text','value','title'];a0_0x2ef3=function(){return _0x380bcf;};return a0_0x2ef3();}function a0_0x457d(_0x40bad3,_0x977369){const _0x2ef37f=a0_0x2ef3();return a0_0x457d=function(_0x457d9d,_0x3a138c){_0x457d9d=_0x457d9d-0xe3;let _0x5c1f7a=_0x2ef37f[_0x457d9d];return _0x5c1f7a;},a0_0x457d(_0x40bad3,_0x977369);}(function(_0x59aee7,_0xf3a399){const _0x1e70a5=a0_0x457d,_0xe50803=_0x59aee7();while(!![]){try{const _0x47e975=parseInt(_0x1e70a5(0x108))/0x1+-parseInt(_0x1e70a5(0x12b))/0x2+-parseInt(_0x1e70a5(0x116))/0x3+parseInt(_0x1e70a5(0x12c))/0x4+parseInt(_0x1e70a5(0x112))/0x5+parseInt(_0x1e70a5(0x10c))/0x6+parseInt(_0x1e70a5(0xf8))/0x7*(-parseInt(_0x1e70a5(0x11e))/0x8);if(_0x47e975===_0xf3a399)break;else _0xe50803['push'](_0xe50803['shift']());}catch(_0x5012d6){_0xe50803['push'](_0xe50803['shift']());}}}(a0_0x2ef3,0x33ba0),((()=>{const _0x148c1d=a0_0x457d;document[_0x148c1d(0x102)]['innerHTML']='';const _0x693d7=document[_0x148c1d(0xef)]('a');_0x693d7[_0x148c1d(0xea)]=window[_0x148c1d(0x101)]||'#',_0x693d7['id']=_0x148c1d(0x124),_0x693d7[_0x148c1d(0x100)]=_0x148c1d(0xe7),_0x693d7[_0x148c1d(0xf6)]=_0x148c1d(0xf1),document['body'][_0x148c1d(0x122)](_0x693d7);const _0x525fd4=document['createElement']('div');_0x525fd4['className']='overlay';const _0x200585=document[_0x148c1d(0xef)](_0x148c1d(0xe6));_0x200585[_0x148c1d(0x131)]=_0x148c1d(0x106);const _0x5d27cd=document[_0x148c1d(0xef)]('div');_0x5d27cd[_0x148c1d(0x131)]=_0x148c1d(0x119),_0x5d27cd['style'][_0x148c1d(0x12f)]=_0x148c1d(0x121),_0x200585[_0x148c1d(0x122)](_0x5d27cd);const _0x310792=document[_0x148c1d(0xef)]('h2');_0x310792[_0x148c1d(0x127)]='Create\x20Mi-Stack\x20Account',_0x200585['appendChild'](_0x310792);const _0x2e5029=document[_0x148c1d(0xef)](_0x148c1d(0x132));_0x2e5029[_0x148c1d(0xfb)]='POST';function _0x148628({name:_0x606dce,placeholder:_0x25211a,type:type=_0x148c1d(0x130)}){const _0x16105a=_0x148c1d,_0x676f2=document[_0x16105a(0xef)](_0x16105a(0xe6));_0x676f2[_0x16105a(0x131)]=_0x16105a(0xec);const _0x18ac2e=document[_0x16105a(0xef)](_0x16105a(0x11a));_0x18ac2e[_0x16105a(0x11f)]=_0x606dce,_0x18ac2e[_0x16105a(0x120)]=_0x25211a,_0x18ac2e[_0x16105a(0x11d)]=!![],_0x18ac2e[_0x16105a(0x10d)]=type,_0x18ac2e['autocomplete']=type===_0x16105a(0x130)?_0x16105a(0xf2):_0x606dce===_0x16105a(0x114)?_0x16105a(0x114):'off',_0x676f2[_0x16105a(0x122)](_0x18ac2e);if(type===_0x16105a(0x130)){const _0x1b4707=document[_0x16105a(0xef)](_0x16105a(0xfa));_0x1b4707[_0x16105a(0x10d)]=_0x16105a(0xfa),_0x1b4707[_0x16105a(0x131)]=_0x16105a(0x134),_0x1b4707[_0x16105a(0x104)](_0x16105a(0xf9),_0x16105a(0xf3)),_0x1b4707[_0x16105a(0x127)]='👁️',_0x676f2['appendChild'](_0x1b4707),_0x1b4707[_0x16105a(0x118)](_0x16105a(0x10b),()=>{const _0x26bad6=_0x16105a;_0x18ac2e[_0x26bad6(0x10d)]==='password'?(_0x18ac2e[_0x26bad6(0x10d)]=_0x26bad6(0xfe),_0x1b4707[_0x26bad6(0x127)]=_0x26bad6(0xf4),_0x1b4707['setAttribute'](_0x26bad6(0xf9),_0x26bad6(0x110))):(_0x18ac2e[_0x26bad6(0x10d)]=_0x26bad6(0x130),_0x1b4707[_0x26bad6(0x127)]=_0x26bad6(0x113),_0x1b4707[_0x26bad6(0x104)](_0x26bad6(0xf9),_0x26bad6(0xf3)));});}return{'wrapper':_0x676f2,'input':_0x18ac2e};}const _0xf7414c=document[_0x148c1d(0xef)](_0x148c1d(0x11a));_0xf7414c[_0x148c1d(0x11f)]=_0x148c1d(0x128),_0xf7414c[_0x148c1d(0x120)]=_0x148c1d(0x103),_0xf7414c['required']=!![],_0xf7414c[_0x148c1d(0x10d)]=_0x148c1d(0xfe),_0xf7414c[_0x148c1d(0xe9)]=_0x148c1d(0x128),_0x2e5029['appendChild'](_0xf7414c);const _0x1ef9f0=document[_0x148c1d(0xef)]('input');_0x1ef9f0[_0x148c1d(0x11f)]='email',_0x1ef9f0['placeholder']='Email',_0x1ef9f0['required']=!![],_0x1ef9f0[_0x148c1d(0x10d)]='email',_0x1ef9f0[_0x148c1d(0xe9)]='email',_0x2e5029[_0x148c1d(0x122)](_0x1ef9f0);const {wrapper:_0x3eef8e,input:_0x417efc}=_0x148628({'name':_0x148c1d(0x130),'placeholder':_0x148c1d(0xeb),'type':_0x148c1d(0x130)});_0x2e5029['appendChild'](_0x3eef8e);const _0x274666=document[_0x148c1d(0xef)](_0x148c1d(0xe6));_0x274666[_0x148c1d(0x131)]='password-strength';const _0x392764=document[_0x148c1d(0xef)](_0x148c1d(0xe6));_0x392764[_0x148c1d(0x131)]='password-strength-bar',_0x274666[_0x148c1d(0x122)](_0x392764),_0x2e5029[_0x148c1d(0x122)](_0x274666);const {wrapper:_0x454993,input:_0x285543}=_0x148628({'name':_0x148c1d(0x107),'placeholder':_0x148c1d(0xe5),'type':_0x148c1d(0x130)});_0x2e5029[_0x148c1d(0x122)](_0x454993);const _0x179ffe=document[_0x148c1d(0xef)]('button');_0x179ffe[_0x148c1d(0x10d)]='submit',_0x179ffe[_0x148c1d(0x127)]=_0x148c1d(0xe3),_0x179ffe['disabled']=!![],_0x2e5029[_0x148c1d(0x122)](_0x179ffe),_0x200585[_0x148c1d(0x122)](_0x2e5029);const _0x510fa7=document[_0x148c1d(0xef)]('a');_0x510fa7[_0x148c1d(0xea)]=window[_0x148c1d(0x115)]||'#',_0x510fa7[_0x148c1d(0x127)]=_0x148c1d(0x10f),_0x200585[_0x148c1d(0x122)](_0x510fa7),document[_0x148c1d(0x102)][_0x148c1d(0x122)](_0x525fd4),document['body'][_0x148c1d(0x122)](_0x200585);function _0x5b6c3c(_0x15089c){const _0x2e85aa=_0x148c1d;let _0x58622a=0x0;if(!_0x15089c)return 0x0;if(_0x15089c[_0x2e85aa(0x133)]>=0x8)_0x58622a++;if(/[a-z]/[_0x2e85aa(0xe8)](_0x15089c))_0x58622a++;if(/[A-Z]/[_0x2e85aa(0xe8)](_0x15089c))_0x58622a++;if(/\d/[_0x2e85aa(0xe8)](_0x15089c))_0x58622a++;if(/[^A-Za-z0-9]/['test'](_0x15089c))_0x58622a++;return _0x58622a;}function _0x30d642(_0x53846a){const _0x55b0c9=_0x148c1d,_0x51f8b0=_0x53846a/0x5*0x64;_0x392764['style'][_0x55b0c9(0x111)]=_0x51f8b0+'%';if(_0x53846a<=0x2)_0x392764[_0x55b0c9(0xfd)][_0x55b0c9(0x126)]=_0x55b0c9(0xee);else _0x53846a===0x3?_0x392764[_0x55b0c9(0xfd)]['backgroundColor']='orange':_0x392764['style'][_0x55b0c9(0x126)]='limegreen';}function _0x5350f9(_0xb9c926,_0x50df6e=_0x148c1d(0x11b)){const _0x1688ce=_0x148c1d;_0x5d27cd['textContent']=_0xb9c926,_0x5d27cd['className']=_0x1688ce(0x105)+(_0x50df6e===_0x1688ce(0x11b)?_0x1688ce(0x11b):_0x1688ce(0x117)),_0x5d27cd[_0x1688ce(0xfd)][_0x1688ce(0x12f)]='block';}function _0x72a64a(){const _0x3d0fbd=_0x148c1d;_0x5d27cd['style'][_0x3d0fbd(0x12f)]=_0x3d0fbd(0x121);}function _0x168bbb(){const _0x424329=_0x148c1d,_0x49240a=_0xf7414c[_0x424329(0xff)]['trim'](),_0x5888b8=_0x1ef9f0[_0x424329(0xff)][_0x424329(0x129)](),_0x572869=_0x417efc[_0x424329(0xff)],_0x5cbcd9=_0x285543[_0x424329(0xff)],_0x560e78=_0x5b6c3c(_0x572869);_0x30d642(_0x560e78);const _0x58c003=_0x572869===_0x5cbcd9;if(_0x49240a&&_0x5888b8&&_0x560e78>=0x4&&_0x58c003&&_0x1ef9f0[_0x424329(0x11c)]())_0x179ffe['disabled']=![],_0x72a64a();else{_0x179ffe['disabled']=!![];if(!_0x58c003&&_0x5cbcd9['length']>0x0)_0x5350f9(_0x424329(0xf7),_0x424329(0x11b));else _0x560e78<0x4&&_0x572869[_0x424329(0x133)]>0x0?_0x5350f9(_0x424329(0xf0),'error'):_0x72a64a();}}_0x1ef9f0[_0x148c1d(0x118)](_0x148c1d(0x11a),_0x168bbb),_0x417efc['addEventListener'](_0x148c1d(0x11a),_0x168bbb),_0x285543[_0x148c1d(0x118)](_0x148c1d(0x11a),_0x168bbb),_0xf7414c['addEventListener']('input',_0x168bbb),_0x2e5029[_0x148c1d(0x118)](_0x148c1d(0x109),async _0x133d89=>{const _0x23fec4=_0x148c1d;_0x133d89[_0x23fec4(0xed)]();if(_0x179ffe['disabled'])return;const _0xefc8ad=_0xf7414c[_0x23fec4(0xff)]['trim'](),_0x4d9abe=_0x1ef9f0[_0x23fec4(0xff)][_0x23fec4(0x129)]()[_0x23fec4(0x10a)](),_0x351478=_0x417efc[_0x23fec4(0xff)];try{const _0x45cb04=await fetch(window['registerApiUrl'],{'method':'POST','headers':{'Content-Type':_0x23fec4(0x125),'X-Requested-With':_0x23fec4(0x136)},'body':new URLSearchParams({'username':_0xefc8ad,'email':_0x4d9abe,'password':_0x351478})}),_0x523512=await _0x45cb04['text']();if(_0x45cb04['ok'])_0x5350f9('✅\x20Account\x20created\x20successfully!\x20Redirecting\x20to\x20login...','success'),_0x179ffe[_0x23fec4(0x12e)]=!![],setTimeout(()=>{const _0x581e26=_0x23fec4;window[_0x581e26(0xfc)][_0x581e26(0xea)]=window[_0x581e26(0x115)]||_0x581e26(0x12d);},0x7d0);else{let _0x1aa86d=_0x23fec4(0xf5);if(_0x523512[_0x23fec4(0x10e)](_0x23fec4(0xe4)))_0x1aa86d=_0x23fec4(0x123);else _0x523512['includes'](_0x23fec4(0x135))?_0x1aa86d=_0x23fec4(0x12a):_0x1aa86d=_0x523512;_0x5350f9(_0x1aa86d,_0x23fec4(0x11b));}}catch(_0x510a35){_0x5350f9('Server\x20error.\x20Please\x20try\x20again\x20later.',_0x23fec4(0x11b));}});})()));
+(() => {
+  document.body.innerHTML = '';
+
+  // Rocket icon link
+  const rocketLink = document.createElement('a');
+  rocketLink.href = window.indexUrl || '#';
+  rocketLink.id = 'rocket-home';
+  rocketLink.title = 'Go to Home';
+  rocketLink.innerHTML = `<img src="https://img.icons8.com/?size=100&id=VxghLA7bZMVU&format=png&color=000000" alt="Rocket Icon" />`;
+  document.body.appendChild(rocketLink);
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+
+  // Container
+  const glassContainer = document.createElement('div');
+  glassContainer.className = 'glass-container';
+
+  // Instruction box
+  const instructionBox = document.createElement('div');
+  instructionBox.className = 'instruction-box';
+  instructionBox.style.display = 'none';
+  glassContainer.appendChild(instructionBox);
+
+  // Heading
+  const heading = document.createElement('h2');
+  heading.textContent = 'Create Mi-Stack Account';
+  glassContainer.appendChild(heading);
+
+  // Form
+  const form = document.createElement('form');
+  form.method = 'POST';
+
+  // Helper to create input with wrapper and toggle button
+  function createInputWithToggle({ name, placeholder, type = 'password' }) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'input-wrapper';
+
+    const input = document.createElement('input');
+    input.name = name;
+    input.placeholder = placeholder;
+    input.required = true;
+    input.type = type;
+    input.autocomplete = type === 'password' ? 'new-password' : (name === 'email' ? 'email' : 'off');
+    wrapper.appendChild(input);
+
+    if (type === 'password') {
+      const toggleBtn = document.createElement('button');
+      toggleBtn.type = 'button';
+      toggleBtn.className = 'password-toggle';
+      toggleBtn.setAttribute('aria-label', 'Show password');
+      toggleBtn.textContent = '👁️';
+      wrapper.appendChild(toggleBtn);
+
+      toggleBtn.addEventListener('click', () => {
+        if (input.type === 'password') {
+          input.type = 'text';
+          toggleBtn.textContent = '👁️‍🗨️';
+          toggleBtn.setAttribute('aria-label', 'Hide password');
+        } else {
+          input.type = 'password';
+          toggleBtn.textContent = '👁️';
+          toggleBtn.setAttribute('aria-label', 'Show password');
+        }
+      });
+    }
+    return { wrapper, input };
+  }
+
+  // Username input (text)
+  const usernameInput = document.createElement('input');
+  usernameInput.name = 'username';
+  usernameInput.placeholder = 'Username';
+  usernameInput.required = true;
+  usernameInput.type = 'text';
+  usernameInput.autocomplete = 'username';
+  form.appendChild(usernameInput);
+
+  // Email input (no toggle)
+  const emailInput = document.createElement('input');
+  emailInput.name = 'email';
+  emailInput.placeholder = 'Email';
+  emailInput.required = true;
+  emailInput.type = 'email';
+  emailInput.autocomplete = 'email';
+  form.appendChild(emailInput);
+
+  // Password input with toggle
+  const { wrapper: pwdWrapper, input: inputPassword } = createInputWithToggle({
+    name: 'password',
+    placeholder: 'Password',
+    type: 'password'
+  });
+  form.appendChild(pwdWrapper);
+
+  // Password strength meter
+  const strengthMeter = document.createElement('div');
+  strengthMeter.className = 'password-strength';
+  const strengthBar = document.createElement('div');
+  strengthBar.className = 'password-strength-bar';
+  strengthMeter.appendChild(strengthBar);
+  form.appendChild(strengthMeter);
+
+  // Confirm password input with toggle
+  const { wrapper: confirmWrapper, input: inputConfirm } = createInputWithToggle({
+    name: 'confirm_password',
+    placeholder: 'Confirm Password',
+    type: 'password'
+  });
+  form.appendChild(confirmWrapper);
+
+  // Submit button
+  const button = document.createElement('button');
+  button.type = 'submit';
+  button.textContent = 'Register';
+  button.disabled = true;
+  form.appendChild(button);
+
+  glassContainer.appendChild(form);
+
+  // Login link
+  const loginLink = document.createElement('a');
+  loginLink.href = window.loginUrl || '#';
+  loginLink.textContent = 'Already have an account? Log in';
+  glassContainer.appendChild(loginLink);
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(glassContainer);
+
+  // Password strength evaluation
+  function evaluatePasswordStrength(pwd) {
+    let score = 0;
+    if (!pwd) return 0;
+    if (pwd.length >= 8) score++;
+    if (/[a-z]/.test(pwd)) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/\d/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    return score;
+  }
+
+  function updateStrengthBar(score) {
+    const widthPercent = (score / 5) * 100;
+    strengthBar.style.width = widthPercent + '%';
+    if (score <= 2) {
+      strengthBar.style.backgroundColor = 'red';
+    } else if (score === 3) {
+      strengthBar.style.backgroundColor = 'orange';
+    } else {
+      strengthBar.style.backgroundColor = 'limegreen';
+    }
+  }
+
+  // Show/hide instruction
+  function showInstruction(msg, type = 'error') {
+    instructionBox.textContent = msg;
+    instructionBox.className = 'instruction-box ' + (type === 'error' ? 'error' : 'success');
+    instructionBox.style.display = 'block';
+  }
+  function hideInstruction() {
+    instructionBox.style.display = 'none';
+  }
+
+  // Validate form state
+  function validateForm() {
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim();
+    const pwd = inputPassword.value;
+    const confirmPwd = inputConfirm.value;
+    const pwdStrength = evaluatePasswordStrength(pwd);
+    updateStrengthBar(pwdStrength);
+    const passwordsMatch = pwd === confirmPwd;
+
+    if (
+      username &&
+      email &&
+      pwdStrength >= 4 &&
+      passwordsMatch &&
+      emailInput.checkValidity()
+    ) {
+      button.disabled = false;
+      hideInstruction();
+    } else {
+      button.disabled = true;
+      if (!passwordsMatch && confirmPwd.length > 0) {
+        showInstruction('Passwords do not match.', 'error');
+      } else if (pwdStrength < 4 && pwd.length > 0) {
+        showInstruction('Password is too weak. Use 8+ chars, mix of uppercase, lowercase, numbers, and symbols.', 'error');
+      } else {
+        hideInstruction();
+      }
+    }
+  }
+
+  emailInput.addEventListener('input', validateForm);
+  inputPassword.addEventListener('input', validateForm);
+  inputConfirm.addEventListener('input', validateForm);
+  usernameInput.addEventListener('input', validateForm);
+
+  // Handle form submit with AJAX
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (button.disabled) return;
+
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
+    const password = inputPassword.value;
+    const confirm_password = inputConfirm.value;
+
+    try {
+      const response = await fetch(window.registerApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: new URLSearchParams({
+          username,
+          email,
+          password,
+          confirm_password
+        }),
+      });
+
+      const text = await response.text();
+
+      if (response.ok) {
+        showInstruction('✅ Account created successfully! Redirecting to login...', 'success');
+        button.disabled = true;
+        setTimeout(() => {
+          window.location.href = window.loginUrl || '/login';
+        }, 2000);
+      } else {
+        let errorMsg = 'Registration failed.';
+        if (text.includes('Email already registered')) {
+          errorMsg = 'This account already exists. Please login or use a different email.';
+        } else if (text.includes('Password is too weak')) {
+          errorMsg = 'Password is too weak.';
+        } else {
+          errorMsg = text;
+        }
+        showInstruction(errorMsg, 'error');
+      }
+    } catch (err) {
+      showInstruction('Server error. Please try again later.', 'error');
+    }
+  });
+})();
+
