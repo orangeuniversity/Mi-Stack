@@ -1,9 +1,3 @@
-<!doctype html>
-<html lang=en>
-<head>
-<meta charset=utf-8>
-<meta content="width=device-width,initial-scale=1" name=viewport>
-<title>Register - Mi-Stack</title>
 <!-- 
  _______ _________     _______ _________ _______  _______  _       
 (       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
@@ -43,15 +37,3 @@
 
 🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
 -->
-<link crossorigin=anonymous href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg==" referrerpolicy=no-referrer rel=stylesheet>
-<link href="{{ url_for('static', filename='fav.png') }}" rel=icon>
-<link href="{{ url_for('static', filename='register/style.css') }}" rel=stylesheet>
-<script src=https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js></script>
-<script src=https://unpkg.com/split-type></script>
-</head>
-<body>
-<script>window.registerBaseUrl="{{ url_for('static', filename='images/') }}",window.indexUrl="{{ url_for('index') }}",window.loginUrl="{{ url_for('login') }}",window.registerApiUrl="{{ url_for('register') }}"</script>
-<script src="{{ url_for('static', filename='register/registerBodyContent.js') }}"></script>
-<script src="{{ url_for('static', filename='register/registerBg.js') }}"></script>
-</body>
-</html>

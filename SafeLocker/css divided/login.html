@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Login - Mi-Stack</title>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg==" referrerpolicy="no-referrer" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='fav.png') }}" rel="icon"/>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+
+<link href="{{ url_for('static', filename='login/style.css') }}" rel="stylesheet"/></head>
+<body>
+<div class="overlay"></div>
+<div class="glass-container">
+<h2>Login to Mi-Stack</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, msg in messages %}
+    <div class="flash {{ category }}">{{ msg }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST">
+<input name="email" placeholder="Email" required="" type="email"/>
+<input name="password" placeholder="Password" required="" type="password"/>
+<button type="submit">Login</button>
+</form>
+<a href="{{ url_for('register') }}">Don't have an account? Register</a>
+</div>
+<script>
+// Randomly choose a background from 1 to 5
+const totalImages = 11;
+const randomNumber = Math.floor(Math.random() * totalImages) + 1;
+const bgImage = "{{ url_for('static', filename='images/image') }}" + randomNumber + ".jpg";
+document.body.style.backgroundImage = "url('" + bgImage + "')";
+</script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mi-Stack | Host Node.js</title>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg==" referrerpolicy="no-referrer" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='fav.png') }}" rel="icon"/>
+
+<link href="{{ url_for('static', filename='index/style.css') }}" rel="stylesheet"/></head>
+<body class="{% if not current_user.is_authenticated %}guest-mode{% endif %}">
+<!-- Preloader -->
+<!-- Preloader HTML (place near top of <body>) -->
+<div aria-label="Loading content" aria-live="polite" class="preloader" role="status">
+<canvas id="starfield"></canvas>
+<div class="galaxy">
+<i class="fas fa-star center-star"></i>
+<div class="orbit orbit1"><div class="planet"></div></div>
+<div class="orbit orbit2"><div class="planet"></div></div>
+<div class="orbit orbit3"><div class="planet"></div></div>
+<div class="orbit orbit4"><div class="planet"></div></div>
+</div>
+<div class="progress-container">
+<div class="progress-bar"></div>
+</div>
+<div class="percentage">0%</div>
+</div>
+<!-- Determine header class based on login -->
+<header class="{% if current_user.is_authenticated %}logged-in{% endif %}">
+<h1>
+      🚀 
+      {% if current_user.is_authenticated %}
+        Mi-<span style="color: rgba(255, 0, 0, 0.637);">Stack</span>
+      {% else %}
+        Mi-Stack
+      {% endif %}
+    </h1>
+<p>Host your Node.js app with ZIP or GitHub — Free &amp; Fast</p>
+<div class="auth-links">
+      {% if current_user.is_authenticated %}
+      <span style="color:white; font-weight:600;">🛸 {{ current_user.email.split('@')[0] }}</span>
+<a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </div>
+</header>
+<!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, msg in messages %}
+          <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% if not current_user.is_authenticated %}
+      <!-- show icons only when not logged in -->
+<div class="container">
+<h2>Welcome to Mi-Stack</h2>
+<div class="icon-row">
+<img onclick="openModal('how')" src="https://cdn-icons-png.flaticon.com/512/1055/1055710.png" title="How it works"/>
+<img onclick="openModal('zip')" src="https://cdn-icons-png.flaticon.com/512/2910/2910797.png" title="ZIP example"/>
+<img onclick="openModal('about')" src="https://cdn-icons-png.flaticon.com/512/1995/1995522.png" title="About us"/>
+</div>
+<p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to start hosting your apps.</p>
+</div>
+    {% else %}
+      <div class="container">
+<h2>Deploy a New App</h2>
+<form action="{{ url_for('upload_zip') }}" enctype="multipart/form-data" method="POST">
+<label>Upload a ZIP file:</label>
+<input accept=".zip" name="site_zip" type="file"/>
+<label>Or enter GitHub repo HTTPS URL:</label>
+<input name="github_url" placeholder="https://github.com/username/repo" type="text"/>
+<input onclick="showUploadSpinner()" type="submit" value="Upload &amp; Host"/>
+<div class="upload-spinner" id="uploadSpinner"></div>
+</form>
+<h2>Your Running Apps</h2>
+<table id="apps-table">
+<thead>
+<tr>
+<th>App ID</th>
+<th>URL</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+    {% endif %}
+  </main>
+<div class="modal-bg" id="modalBg">
+<div class="modal" id="modalContent">
+<div class="glass-buttons">
+<div class="circle red" onclick="closeModal()"><i class="fas fa-times"></i></div>
+<div class="circle yellow" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+</div>
+</div>
+</div>
+<!-- GSAP & SplitType -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<script>
+    // Declare these globally so playCompletion() can access them
+    let loadingText, completeText;
+  
+    // Modal logic (unchanged)
+    async function loadApps() {
+      const res = await fetch('{{ url_for("list_apps") }}');
+      const apps = await res.json();
+      const tbody = document.querySelector('#apps-table tbody');
+      tbody.innerHTML = '';
+      apps.forEach(app => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${app.id}</td>
+            <td><a href="http://${location.hostname}:${app.port}" target="_blank">http://${location.hostname}:${app.port}</a></td>
+            <td><button class="delete-btn" onclick="deleteApp('${app.id}')">Delete</button></td>
+          </tr>
+        `;
+      });
+    }
+  
+    async function deleteApp(id) {
+      const res = await fetch('/delete-app/' + id, { method: 'DELETE' });
+      if (res.ok) loadApps();
+      else alert('Delete failed');
+    }
+  
+    // Utility: preload an image and resolve on load/error
+    function preloadImage(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
+    }
+  
+    // Preloader and background image logic
+    window.addEventListener('load', async () => {
+  const MIN_PRELOADER_TIME = 2000; // 3 seconds min
+  const PRELOADER_FADE_TIME = 600; // preloader fade out animation time in ms
+  const PROGRESS_ANIMATION_TIME = 2000; // progress bar animates 0 to 100 in 3s
+
+  const preloader = document.querySelector('.preloader');
+  const progressBar = document.querySelector('.preloader .progress-bar');
+  const percEl = document.querySelector('.preloader .percentage');
+  const startTime = performance.now();
+
+  {% if current_user.is_authenticated %}
+    await loadApps();
+
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundColor = '#FFF';
+
+  {% else %}
+    const totalImages = 7;
+    const randomNumber = Math.floor(Math.random() * totalImages) + 1;
+    const bgImage = "{{ url_for('static', filename='ui_ux/image') }}" + randomNumber + ".jpg";
+
+    await Promise.race([
+      preloadImage(bgImage),
+      new Promise(resolve => setTimeout(resolve, 5000))
+    ]);
+
+    document.body.style.backgroundImage = `url('${bgImage}')`;
+    document.body.style.backgroundColor = '';
+  {% endif %}
+
+  // Calculate elapsed time for minimum preloader duration
+  const elapsed = performance.now() - startTime;
+  const remainingTime = Math.max(0, MIN_PRELOADER_TIME - elapsed);
+
+  // Wait remaining time to ensure preloader visible at least 3 seconds
+  setTimeout(() => {
+    // Start animating progress bar from 0 to 100 over PROGRESS_ANIMATION_TIME
+    if (!progressBar || !percEl) {
+      // If elements not found, just hide preloader immediately
+      if (preloader) {
+        preloader.classList.add('hidden');
+        document.body.classList.add('preloader-done');
+      }
+      return;
+    }
+
+    let progress = 0;
+    const startProgressTime = performance.now();
+
+    function animateProgress() {
+      const now = performance.now();
+      const elapsedProgress = now - startProgressTime;
+      progress = Math.min(100, (elapsedProgress / PROGRESS_ANIMATION_TIME) * 100);
+
+      progressBar.style.width = progress + '%';
+      percEl.textContent = Math.floor(progress) + '%';
+
+      if (progress < 100) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        // Progress complete, fade out preloader
+        preloader.classList.add('hidden');
+        document.body.classList.add('preloader-done');
+        // Optionally remove preloader from DOM after fadeout
+        setTimeout(() => {
+          if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+        }, PRELOADER_FADE_TIME);
+      }
+    }
+
+    animateProgress();
+
+  }, remainingTime);
+});
+
+  
+    // Modal variables and functions
+    const modalBg = document.getElementById('modalBg');
+    const modal = document.getElementById('modalContent');
+  
+    function openModal(type) {
+      let html = '';
+      if (type === 'how') {
+        html = `
+          <div class="glass-buttons">
+            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+          </div>
+          <h3>🛠️ How Mi-Stack Works</h3>
+          <p>Deploy any Node.js app easily: upload a ZIP or provide GitHub repo URL.</p>
+          <ol>
+            <li>Zip your project with <code>server.js</code>, <code>package.json</code> (with start script), and <code>public/</code>.</li>
+            <li>Or create a GitHub repo, then copy HTTPS URL:</li>
+          </ol>
+          <img src="https://docs.github.com/assets/images/help/repository/code-button.png" alt="GitHub code button" style="max-width:100%;margin:10px 0;" />
+          <p>Click "Code" → copy HTTPS URL → paste it in the field.</p>
+        `;
+      }
+      if (type === 'zip') {
+        html = `
+          <div class="glass-buttons">
+            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+          </div>
+          <h3>📦 ZIP File Structure</h3>
+          <p>Ensure your <code>project.zip</code> has this format:</p>
+          <pre style="background:#f9f9f9;padding:15px;border-radius:8px;overflow:auto;">
+    project.zip
+    ├── server.js
+    ├── package.json
+    └── public/
+        ├── index.html
+        ├── style.css
+        └── script.js
+          </pre>
+          <p><strong>Why is <code>package.json</code> required?</strong></p>
+          <p>
+            The <code>package.json</code> file defines your app’s dependencies and scripts.<br/>
+            Make sure it includes a <code>"start"</code> script like this:
+          </p>
+          <pre style="background:#f4f4f4;padding:10px;border-left:4px solid #007acc;">
+    {
+      "name": "my-app",
+      "version": "1.0.0",
+      "main": "server.js",
+      "scripts": {
+        "start": "node server.js"
+      },
+      "dependencies": {
+        "express": "^4.18.2"
+      }
+    }
+          </pre>
+        `;
+      }
+      if (type === 'about') {
+        html = `
+          <div class="glass-buttons">
+            <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+          </div>
+          <h3>👤 About Us</h3>
+          <p>Mi-Stack was created by <strong>Missari</strong>, a passionate developer aiming to make Node.js hosting simple and accessible.</p>
+          <p>Our mission is to empower developers to deploy apps in seconds — no hassle, no servers.</p>
+          <p>
+            <a href="https://www.linkedin.com/company/mi-stack/" target="_blank" style="
+              text-decoration: none;
+              display: inline-flex;
+              align-items: center;
+              margin-top: 5px;
+              gap: 8px;
+              font-weight: bold;
+              letter-spacing: 0.8px;
+              color: #0A66C2;
+              transition: all 0.3s ease;
+            " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+              <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="22" height="22" style="vertical-align: middle;" />
+              LinkedIn For Mi-Stack🧑🏻‍🚀🚀
+            </a>
+          </p>
+        `;
+      }
+      modal.innerHTML = html;
+      modalBg.style.display = 'flex';
+      setTimeout(() => modal.classList.add('show'), 50);
+    }
+  
+    modalBg.addEventListener('click', e => {
+      if (!modal.contains(e.target)) {
+        modal.classList.remove('show');
+        setTimeout(() => (modalBg.style.display = 'none'), 200);
+      }
+    });
+  
+    function closeModal() {
+      modal.classList.remove('show');
+      setTimeout(() => (modalBg.style.display = 'none'), 200);
+    }
+  
+    // STARFIELD ANIMATION
+    (function () {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      let stars = [];
+  
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        initStars();
+      }
+  
+      function initStars() {
+        stars = [];
+        const count = Math.floor((w * h) / 8000);
+        for (let i = 0; i < count; i++) {
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.2 + 0.3,
+            phase: Math.random() * Math.PI * 2,
+            speed: Math.random() * 0.0005 + 0.0002,
+          });
+        }
+      }
+  
+      let lastTime = 0;
+  
+      function animateStars(time) {
+        const delta = time - lastTime;
+        lastTime = time;
+        ctx.clearRect(0, 0, w, h);
+        stars.forEach(s => {
+          s.phase += s.speed * delta;
+          const alpha = 0.5 + 0.5 * Math.sin(s.phase);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(animateStars);
+      }
+  
+      window.addEventListener('resize', resize);
+      resize();
+      requestAnimationFrame(animateStars);
+    })();
+  
+    // PROGRESS LOGIC
+    function updateProgress(p) {
+      const clamped = Math.max(0, Math.min(100, p));
+      const bar = document.querySelector('.preloader .progress-bar');
+      const percEl = document.querySelector('.preloader .percentage');
+      const pre = document.querySelector('.preloader');
+      if (!bar || !percEl || !pre) return;
+      bar.style.width = clamped + '%';
+      percEl.textContent = clamped + '%';
+      if (clamped >= 100) {
+        setTimeout(() => {
+          pre.classList.add('hidden');
+          setTimeout(() => {
+            if (pre.parentNode) pre.parentNode.removeChild(pre);
+          }, 600);
+        }, 300);
+      }
+    }
+  
+    // Optional demo loading progress simulation (commented out)
+    /*
+    document.addEventListener("DOMContentLoaded", () => {
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        updateProgress(progress);
+        if (progress >= 100) clearInterval(interval);
+      }, 400);
+    });
+    */
+  
+    function playCompletion() {
+      const tl = gsap.timeline();
+      tl.to('.loading-text.initial', {
+        y: '-100%',
+        duration: 0.5,
+        ease: 'power2.inOut',
+      })
+        .to(
+          '.loading-text.complete',
+          {
+            y: '0%',
+            duration: 0.5,
+            ease: 'power2.inOut',
+          },
+          '<'
+        )
+        .to(
+          completeText.chars,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.3,
+            stagger: 0.03,
+            ease: 'power2.out',
+          },
+          '<0.2'
+        )
+        .to(
+          '.preloader',
+          {
+            y: '-100vh',
+            duration: 1,
+            ease: 'power2.inOut',
+            delay: 0.8,
+          }
+        )
+        .set('body', { className: '+=preloader-done' }, '-=0.5')
+        .set('.preloader', { display: 'none' });
+    }
+  
+    // Spinner Circle JS
+    function showUploadSpinner() {
+      document.getElementById('uploadSpinner').style.display = 'block';
+    }
+  
+    // Flying Heart Animation
+    function createFlyingHeart(icon) {
+      const heart = document.createElement('div');
+      heart.className = 'flying-heart';
+      heart.textContent = '💜'; // purple heart emoji
+  
+      // Position the heart near the icon randomly within the icon bounds
+      const rect = icon.getBoundingClientRect();
+      const x = rect.left + rect.width / 2 + (Math.random() * 20 - 10);
+      const y = rect.top + rect.height / 2 + (Math.random() * 20 - 10);
+  
+      heart.style.left = `${x}px`;
+      heart.style.top = `${y}px`;
+  
+      document.body.appendChild(heart);
+  
+      // Remove heart after animation completes
+      heart.addEventListener('animationend', () => heart.remove());
+    }
+  
+    function startRandomFlyingHearts() {
+      const icons = document.querySelectorAll('.icon-row img');
+      setInterval(() => {
+        // Pick random icon
+        const icon = icons[Math.floor(Math.random() * icons.length)];
+        createFlyingHeart(icon);
+      }, 3000); // every 3 seconds
+    }
+  
+    // Start flying hearts when page loads
+    window.addEventListener('load', () => {
+      startRandomFlyingHearts();
+    });
+  
+  </script>
+</body>
+</html>

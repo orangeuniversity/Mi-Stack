@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi-Stack | Desktop Only</title>
+  <link rel="icon" href="{{ url_for('static', filename='fav.png') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="Mi-Stack – Desktop Required" />
+  <meta property="og:description" content="Mi-Stack is optimized for desktop/laptop experiences. Please revisit from a desktop device." />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+      color: #fff;
+      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .content {
+      text-align: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      max-width: 90%;
+      width: 400px;
+    }
+
+    .oggy {
+      width: 300px;
+      height: 300px;
+      margin-bottom: -10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    strong {
+      color: #ff4c4c;
+      font-weight: 700;
+    }
+
+    .linkedin-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 16px;
+      padding: 10px 20px;
+      border: 2px solid #0077b5;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #0077b5;
+      font-style: normal;
+      font-weight: 600;
+      transition: background 0.3s, color 0.3s;
+      background: #ffffff1a;
+    }
+
+    .linkedin-link:hover {
+      background: #0077b5;
+      color: white;
+    }
+
+    .linkedin-link img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      filter: invert(40%) sepia(74%) saturate(669%) hue-rotate(178deg) brightness(90%) contrast(90%);
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      animation: floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle {
+      from { transform: translateY(0) translateX(0); opacity: 1; }
+      to { transform: translateY(-100vh) translateX(50vw); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const particleCount = 20;
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 6 + 4;
+      p.style.width = `${size}px`;
+      p.style.height = `${size}px`;
+      p.style.left = `${Math.random() * 100}vw`;
+      p.style.top = `${Math.random() * 100}vh`;
+      p.style.animationDuration = `${Math.random() * 10 + 5}s`;
+      p.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(p);
+    }
+  </script>
+
+  <div class="content">
+    {% set random_img = ('astronaut/' + (range(1, 7)|random|string) + '.png') %}
+    <img src="{{ url_for('static', filename=random_img) }}"  class="oggy" />
+
+    <h1><strong>Mobile Access Not Supported</strong></h1>
+    <p>Mi-Stack is crafted for <strong>desktop</strong> and <strong>laptop</strong> users.</p>
+    <p>Please come back using a <strong>bigger screen</strong> to explore the full power of the platform.</p>
+    <p>More features are <strong>coming soon</strong>!</p>
+
+    <a class="linkedin-link" href="https://www.linkedin.com/company/mi-stack" target="_blank">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn Icon" />
+      Connect on LinkedIn
+    </a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const oggy = document.querySelector('.oggy');
+      if (oggy && window.gsap) {
+        gsap.to(oggy, {
+          y: -20,
+          duration: 2.5,
+          yoyo: true,
+          repeat: -1,
+          ease: "sine.inOut"
+        });
+      }
+    });
+  </script>
+</body>
+</html>

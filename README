@@ -1,4 +1,15 @@
 source venv/bin/activate
 
+====== QA  ==============
+
 type "run" to run in local host
 type "runtest" to do QA
+
+======= long code html file ============
+
+do html minification adn upload the code on chatgpt!
+
+==========while coding are external linked=============
+
+cat * to all external file and minification it 
+als index.html minifcation adn give it on next replay
