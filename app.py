@@ -17,6 +17,7 @@ app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret')  # Load from env, fa
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mibase.db'
 app.config['UPLOAD_FOLDER'] = 'apps'
 DOCKER_APP_FOLDER = 'docker_apps'
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB limit, adjust as needed
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
