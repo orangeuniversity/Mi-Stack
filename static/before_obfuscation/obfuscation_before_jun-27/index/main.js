@@ -1,3 +1,4 @@
+//main.js
 // Declare these globally so playCompletion() can access them
 let loadingText, completeText;
 
@@ -104,6 +105,60 @@ window.addEventListener('load', async () => {
   startRandomFlyingHearts();
 });
 
+// Spinner Circle JS
+function showUploadSpinner() {
+  const spinner = document.getElementById('uploadSpinner');
+  if (spinner) spinner.style.display = 'block';
+}
+
+function hideUploadSpinner() {
+  const spinner = document.getElementById('uploadSpinner');
+  if (spinner) spinner.style.display = 'none';
+}
+
+// Form submission handler with validation
+function onSubmitHandler(event) {
+  const form = event.target.form || event.target.closest('form');
+  if (!form) return true; // fallback
+
+  const fileInput = form.querySelector('input[name="site_zip"]');
+  const urlInput = form.querySelector('input[name="github_url"]');
+  const appTypeInput = form.querySelector('input[name="app_type"]:checked');
+
+  // Validate app type selected
+  if (!appTypeInput) {
+    alert('Please select app type.');
+    event.preventDefault();
+    return false;
+  }
+
+  // Validate at least one of ZIP or GitHub URL is provided
+  const hasFile = fileInput && fileInput.files.length > 0;
+  const hasUrl = urlInput && urlInput.value.trim() !== '';
+
+  if (!hasFile && !hasUrl) {
+    alert('Please upload a ZIP file or enter a GitHub repo URL.');
+    event.preventDefault();
+    return false;
+  }
+
+  // Show spinner
+  showUploadSpinner();
+
+  // Allow form to submit
+  return true;
+}
+
+// Handle back/forward navigation to reload apps and hide spinner if visible
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted || (window.performance && window.performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
+    hideUploadSpinner();
+    if (window.isAuthenticated) {
+      loadApps();
+    }
+  }
+});
+
 // Modal variables and functions
 const modalBg = document.getElementById('modalBg');
 const modal = document.getElementById('modalContent');
@@ -112,20 +167,30 @@ function openModal(type) {
   let html = '';
   if (type === 'how') {
     html = `
-      <div class="glass-buttons">
-        <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
-        <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
-        <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
-      </div>
-      <h3>🛠️ How Mi-Stack Works</h3>
-      <p>Deploy any Node.js app easily: upload a ZIP or provide GitHub repo URL.</p>
-      <ol>
-        <li>Zip your project with <code>server.js</code>, <code>package.json</code> (with start script), and <code>public/</code>.</li>
-        <li>Or create a GitHub repo, then copy HTTPS URL:</li>
-      </ol>
-      <img src="https://docs.github.com/assets/images/help/repository/code-button.png" alt="GitHub code button" style="max-width:100%;margin:10px 0;" />
-      <p>Click "Code" → copy HTTPS URL → paste it in the field.</p>
-    `;
+  <div class="glass-buttons">
+    <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+    <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+  </div>
+  <h3>🛠️ How Mi-Stack Works</h3>
+  <p>Deploy any Node.js or Python app easily: upload a ZIP or provide GitHub repo URL.</p>
+  
+  <img src="/static/index/code-button.png" alt="GitHub code button" style="max-width:100%;margin:10px 0;" />
+  <p>Click "Code" → copy HTTPS URL → paste it in the field.</p>
+
+  </br><h4>For Node.js apps:</h4>
+  <ul style="list-style-type: none; padding-left: 0;">
+    <li><span style="color: green;">✔️</span> Zip your project with <code>server.js</code>, <code>package.json</code> (with start script), and <code>public/</code>.</li>
+    <li><span style="color: green;">✔️</span> Or create a GitHub repo, then copy HTTPS URL:</li>
+  </ul></br>
+
+  <h4>For Python apps:</h4>
+  <ul style="list-style-type: none; padding-left: 0;">
+    <li><span style="color: green;">✔️</span> Zip your project with <code>app.py</code>, <code>requirements.txt</code>, and <code>static/</code> folder containing your frontend files.</li>
+    <li><span style="color: green;">✔️</span> Make sure <code>requirements.txt</code> lists all your Python dependencies. Your <code>app.py</code> should run a Flask server serving the static files.</li>
+    <li><span style="color: green;">✔️</span> Or create a GitHub repo, then copy HTTPS URL:</li>
+  </ul>
+`;
   }
   if (type === 'zip') {
     html = `
@@ -134,7 +199,7 @@ function openModal(type) {
         <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
         <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
       </div>
-      <h3>📦 ZIP File Structure</h3>
+      <h3>📦 Node.js ZIP File Structure</h3>
       <p>Ensure your <code>project.zip</code> has this format:</p>
       <pre style="background:#f9f9f9;padding:15px;border-radius:8px;overflow:auto;">
 project.zip
@@ -165,6 +230,46 @@ project.zip
       </pre>
     `;
   }
+
+  if (type === 'pythonZip') {
+    html = `
+      <div class="glass-buttons">
+        <div class="circle green" onclick="closeModal()"><i class="fas fa-times"></i></div>
+        <div class="circle yellow" onclick="closeModal()"><i class="fas fa-times"></i></div>
+        <div class="circle red" onclick="closeModal()"><i class="fas fa-minus"></i></div>
+      </div>
+      <h3>📦 Python ZIP File Structure</h3>
+      <p>Ensure your <code>project.zip</code> has this format for Python apps:</p>
+      <pre style="background:#f9f9f9;padding:15px;border-radius:8px;overflow:auto;">
+project.zip
+├── app.py
+├── requirements.txt
+└── static/
+    ├── index.html
+    ├── style.css
+    └── script.js
+      </pre>
+      <p><strong>Why is <code>requirements.txt</code> required?</strong></p>
+      <p>
+        The <code>requirements.txt</code> file lists your Python dependencies.<br/>
+        Make sure to include all packages your app needs to run.
+      </p></br>
+      <p><strong>Example <code>app.py</code>:</strong></p>
+      <pre style="background:#f4f4f4;padding:10px;border-left:4px solid #007acc;">
+from flask import Flask, send_from_directory
+
+app = Flask(__name__, static_folder='static')
+
+@app.route('/')
+def root():
+    return send_from_directory(app.static_folder, 'index.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
+      </pre>
+    `;
+  }
+
   if (type === 'about') {
     html = `
       <div class="glass-buttons">
@@ -259,11 +364,6 @@ function closeModal() {
   requestAnimationFrame(animateStars);
 })();
 
-// Spinner Circle JS
-function showUploadSpinner() {
-  document.getElementById('uploadSpinner').style.display = 'block';
-}
-
 // Flying Heart Animation
 function createFlyingHeart(icon) {
   const heart = document.createElement('div');
@@ -285,4 +385,3 @@ function startRandomFlyingHearts() {
     createFlyingHeart(icon);
   }, 3000);
 }
-
