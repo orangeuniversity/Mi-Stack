@@ -1,0 +1,41 @@
+jwfp jogl rdym xpkl - otp
+
+broadcat@mistack.com 12345
+admin@mistack.com 12345!
+
+----------------------------------------------
+
+from app import app, db, User
+from werkzeug.security import generate_password_hash
+
+with app.app_context():
+    admin_email = 'admin@mistack.com'
+    existing = User.query.filter_by(email=admin_email).first()
+    if existing:
+        print("Admin user already exists.")
+    else:
+        admin_password = '12345!'
+        hashed = generate_password_hash(admin_password)
+        admin = User(email=admin_email, password=hashed, max_apps=10)
+        db.session.add(admin)
+        db.session.commit()
+        print("Admin user created.")
+----------------------------------------------
+
+from app import app, db, User
+from werkzeug.security import generate_password_hash
+
+with app.app_context():
+    admin_email = 'admin@mistack.com'
+    existing = User.query.filter_by(email=admin_email).first()
+    if existing:
+        print("Admin user already exists.")
+    else:
+        admin_password = '12345!'
+        hashed = generate_password_hash(admin_password)
+        admin = User(email=admin_email, password=hashed, max_apps=10)
+        db.session.add(admin)
+        db.session.commit()
+        print("Admin user created.")
+
+admin panel
