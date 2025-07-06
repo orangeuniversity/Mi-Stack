@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broadcast Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .placeholder {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 180px;
+      padding: 15px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .placeholder img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background: #eee;
+    }
+    .placeholder input[type="url"] {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Broadcast Dashboard</h1>
+  <p>Enter up to 10 website URLs below. The image will attempt to load the site favicon.</p>
+  <div class="container" id="placeholders">
+    <!-- 10 placeholders will be created by JS -->
+  </div>
+
+  <script>
+    const container = document.getElementById('placeholders');
+    const defaultImg = 'https://via.placeholder.com/64?text=No+Image';
+
+    function getFaviconUrl(siteUrl) {
+      try {
+        let url = new URL(siteUrl);
+        return url.origin + '/favicon.ico';
+      } catch {
+        return defaultImg;
+      }
+    }
+
+    function createPlaceholder(index) {
+      const div = document.createElement('div');
+      div.className = 'placeholder';
+
+      const img = document.createElement('img');
+      img.src = defaultImg;
+      img.alt = `Placeholder ${index + 1}`;
+
+      const input = document.createElement('input');
+      input.type = 'url';
+      input.placeholder = 'Enter website URL';
+      input.addEventListener('change', () => {
+        const val = input.value.trim();
+        if (val) {
+          const favicon = getFaviconUrl(val);
+          img.src = favicon;
+          // Test if image loads, else fallback to default
+          img.onerror = () => { img.src = defaultImg; };
+        } else {
+          img.src = defaultImg;
+        }
+      });
+
+      div.appendChild(img);
+      div.appendChild(input);
+
+      return div;
+    }
+
+    for(let i=0; i<10; i++) {
+      container.appendChild(createPlaceholder(i));
+    }
+  </script>
+</body>
+</html>
+

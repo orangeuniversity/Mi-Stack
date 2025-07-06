@@ -1,158 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang=en>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi-Stack | Desktop Only</title>
-  <link rel="icon" href="{{ url_for('static', filename='fav.png') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Mi-Stack | Desktop Only</title>
+<!-- 
+ _______ _________     _______ _________ _______  _______  _       
+(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
+| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
+| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
+| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
+| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
+| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
+|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
+                                                                   
 
-  <meta property="og:title" content="Mi-Stack – Desktop Required" />
-  <meta property="og:description" content="Mi-Stack is optimized for desktop/laptop experiences. Please revisit from a desktop device." />
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Inter', sans-serif;
-      font-style: italic;
-      color: #fff;
-      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+ _._     _,-'""`-._                           
+(,-.`._,'(       |\`-/|
+    `-.-' \ )-`( , o o)
+          `-    \`_`"'-
 
-    .content {
-      text-align: center;
-      padding: 20px;
-      backdrop-filter: blur(10px);
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      max-width: 90%;
-      width: 400px;
-    }
+                   _ |\_
+                   \` ..\
+              __,.-" =__Y=
+            ."        )
+      _    /   ,    \/\_
+     ((____|    )_-\ \_-`
+    `-----'`-----` `--`
+          
 
-    .oggy {
-      width: 300px;
-      height: 300px;
-      margin-bottom: -10px;
-    }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      font-weight: 700;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-    }
+🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
+🌍 Mission: Landung auf dem Planeten Merkur  
+👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
 
-    p {
-      font-size: 1rem;
-      margin: 8px 0;
-      line-height: 1.4;
-    }
+🛡️ Alle Rechte vorbehalten © 2025 Missari  
+⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
 
-    strong {
-      color: #ff4c4c;
-      font-weight: 700;
-    }
+🔧 Technologie: Containerisierte Sicherheit mit Docker  
+🌐 Zugriff: /app/<uuid>/ für jede Anwendung
 
-    .linkedin-link {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 16px;
-      padding: 10px 20px;
-      border: 2px solid #0077b5;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #0077b5;
-      font-style: normal;
-      font-weight: 600;
-      transition: background 0.3s, color 0.3s;
-      background: #ffffff1a;
-    }
+––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    .linkedin-link:hover {
-      background: #0077b5;
-      color: white;
-    }
+🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
+🌍 Місія: Посадка на планету Меркурій  
+👩‍🚀 Розробник: Міссарі — готова до старту!
 
-    .linkedin-link img {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      filter: invert(40%) sepia(74%) saturate(669%) hue-rotate(178deg) brightness(90%) contrast(90%);
-    }
+🛡️ Всі права захищені © 2025 Missari  
+⛔ Несанкціонований запуск коду заборонено!
 
-    .particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      animation: floatParticle linear infinite;
-    }
+🔧 Технології: Безпечна контейнеризація через Docker  
+🌐 Доступ: /app/<uuid>/ для кожного застосунку
 
-    @keyframes floatParticle {
-      from { transform: translateY(0) translateX(0); opacity: 1; }
-      to { transform: translateY(-100vh) translateX(50vw); opacity: 0; }
-    }
-  </style>
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
+-->
+<link rel=icon href="{{ url_for('static', filename='images/fav.png') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel=stylesheet>
+<meta property=og:title content="Mi-Stack – Desktop Required">
+<meta property=og:description content="Mi-Stack is optimized for desktop/laptop experiences. Please revisit from a desktop device.">
+<style>body{margin:0;padding:0;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;font-family:Inter,sans-serif;font-style:italic;color:#fff;background:linear-gradient(-45deg,#1a1a2e,#16213e,#0f3460,#533483);background-size:400% 400%;animation:gradientBG 15s ease infinite}@keyframes gradientBG{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}.content{text-align:center;padding:20px;backdrop-filter:blur(10px);background:rgba(0,0,0,.4);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:90%;width:400px}.oggy{width:300px;height:300px;margin-bottom:-10px}h1{font-size:1.8rem;margin-bottom:10px;color:#ff0505e3;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.7)}h2{font-size:1.4rem;margin-bottom:20px;font-weight:600;text-shadow:0 2px 8px rgba(0,0,0,.7)}p{font-size:1.1rem;margin:8px 0;line-height:1.4;font-weight:700}p strong{color:#86a712e3;font-weight:700;font-size:1.4rem}.linkedin-link{display:inline-flex;align-items:center;margin-top:16px;padding:10px 20px;border:2px solid #0077b5;border-radius:8px;text-decoration:none;color:#0077b5;font-style:normal;font-weight:600;transition:background .3s,color .3s;background:#ffffff1a}.linkedin-link:hover{background:#0077b5;color:#fff}.linkedin-link img{width:20px;height:20px;margin-right:10px;filter:invert(40%) sepia(74%) saturate(669%) hue-rotate(178deg) brightness(90%) contrast(90%)}.particle{position:absolute;background:rgba(255,255,255,.2);border-radius:50%;animation:floatParticle linear infinite}@keyframes floatParticle{from{transform:translateY(0) translateX(0);opacity:1}to{transform:translateY(-100vh) translateX(50vw);opacity:0}}</style>
 </head>
 <body>
-  <script>
-    const particleCount = 20;
-    for (let i = 0; i < particleCount; i++) {
-      const p = document.createElement('div');
-      p.classList.add('particle');
-      const size = Math.random() * 6 + 4;
-      p.style.width = `${size}px`;
-      p.style.height = `${size}px`;
-      p.style.left = `${Math.random() * 100}vw`;
-      p.style.top = `${Math.random() * 100}vh`;
-      p.style.animationDuration = `${Math.random() * 10 + 5}s`;
-      p.style.animationDelay = `${Math.random() * 5}s`;
-      document.body.appendChild(p);
-    }
-  </script>
-
-  <div class="content">
-    {% set random_img = ('astronaut/' + (range(1, 7)|random|string) + '.png') %}
-    <img src="{{ url_for('static', filename=random_img) }}"  class="oggy" />
-
-    <h1><strong>Mobile Access Not Supported</strong></h1>
-    <p>Mi-Stack is crafted for <strong>desktop</strong> and <strong>laptop</strong> users.</p>
-    <p>Please come back using a <strong>bigger screen</strong> to explore the full power of the platform.</p>
-    <p>More features are <strong>coming soon</strong>!</p>
-
-    <a class="linkedin-link" href="https://www.linkedin.com/company/mi-stack" target="_blank">
-      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn Icon" />
-      Connect on LinkedIn
-    </a>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script>
-    window.addEventListener('load', () => {
-      const oggy = document.querySelector('.oggy');
-      if (oggy && window.gsap) {
-        gsap.to(oggy, {
-          y: -20,
-          duration: 2.5,
-          yoyo: true,
-          repeat: -1,
-          ease: "sine.inOut"
-        });
-      }
-    });
-  </script>
+<script>const particleCount=20;for(let t=0;t<20;t++){const t=document.createElement("div");t.classList.add("particle");const a=6*Math.random()+4;t.style.width=`${a}px`,t.style.height=`${a}px`,t.style.left=100*Math.random()+"vw",t.style.top=100*Math.random()+"vh",t.style.animationDuration=10*Math.random()+5+"s",t.style.animationDelay=5*Math.random()+"s",document.body.appendChild(t)}</script>
+<div class=content>
+{% set random_img = ('images/astronaut/' + (range(1, 7)|random|string) + '.png') %}
+<img src="{{ url_for('static', filename=random_img) }}" class=oggy>
+<h1><strong>Welcome to Mi-Stack</strong></h1>
+<h2><strong>The Sri Lanka's First Automated Unified Hosting Platform</strong></h2>
+<p><strong>Mobile access is unsupported.</strong> <br>Mi-Stack’s advanced developer console requires desktop or laptop devices for optimal performance.</p>
+<p>Please use a larger screen for full platform functionality.</p>
+<a class=linkedin-link href=https://www.linkedin.com/company/mi-stack target=_blank>
+<img src=https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg alt="LinkedIn Icon">
+Connect on LinkedIn
+</a>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js></script>
+<script>window.addEventListener("load",(()=>{const e=document.querySelector(".oggy");e&&window.gsap&&gsap.to(e,{y:-20,duration:2.5,yoyo:!0,repeat:-1,ease:"sine.inOut"})}))</script>
 </body>
 </html>

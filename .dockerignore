@@ -1,9 +1,10 @@
-venv
-__pycache__
+venv/
+__pycache__/
 *.pyc
-uploads
-docker_apps
-beofre_obfuscation
+uploads/
 *.sqlite3
 *.db
+.DS_Store
+.env
+instance/
 

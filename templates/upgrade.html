@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Upgrade Your Account</title>
+<!-- 
+ _______ _________     _______ _________ _______  _______  _       
+(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
+| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
+| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
+| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
+| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
+| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
+|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
+                                                                   
+
+
+ _._     _,-'""`-._                           
+(,-.`._,'(       |\`-/|
+    `-.-' \ )-`( , o o)
+          `-    \`_`"'-
+
+                   _ |\_
+                   \` ..\
+              __,.-" =__Y=
+            ."        )
+      _    /   ,    \/\_
+     ((____|    )_-\ \_-`
+    `-----'`-----` `--`
+          
+
+
+🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
+🌍 Mission: Landung auf dem Planeten Merkur  
+👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
+
+🛡️ Alle Rechte vorbehalten © 2025 Missari  
+⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
+
+🔧 Technologie: Containerisierte Sicherheit mit Docker  
+🌐 Zugriff: /app/<uuid>/ für jede Anwendung
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
+🌍 Місія: Посадка на планету Меркурій  
+👩‍🚀 Розробник: Міссарі — готова до старту!
+
+🛡️ Всі права захищені © 2025 Missari  
+⛔ Несанкціонований запуск коду заборонено!
+
+🔧 Технології: Безпечна контейнеризація через Docker  
+🌐 Доступ: /app/<uuid>/ для кожного застосунку
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
+-->
+<link href="{{ url_for('static', filename='images/fav.png') }}" rel=icon>
+<link href="{{ url_for('static', filename='upgrade/style.css') }}" rel=stylesheet>
+</head>
+<body>
+<div id=upgradeContainer></div>
+<script>const current="{{ current }}",max_apps="{{ max_apps }}"</script>
+<script src="{{ url_for('static', filename='upgrade/upgradeContent.js') }}"></script>
+</body>
+</html>

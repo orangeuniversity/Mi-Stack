@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Your Account</title>
+    <link href="{{ url_for('static', filename='upgrade/style.css') }}" rel=stylesheet>
+</head>
+<body>
+    <div id="upgradeContainer"></div>
+
+    <script>
+        const current = "{{ current }}";
+        const max_apps = "{{ max_apps }}";
+    </script>
+    <script src="{{ url_for('static', filename='upgrade/upgradeContent.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>Mi-Stack | Hosting Platform</title>
+<!-- 
+ _______ _________     _______ _________ _______  _______  _       
+(       )\__   __/    (  ____ \\__   __/(  ___  )(  ____ \| \    /\
+| () () |   ) (       | (    \/   ) (   | (   ) || (    \/|  \  / /
+| || || |   | | _____ | (_____    | |   | (___) || |      |  (_/ / 
+| |(_)| |   | |(_____)(_____  )   | |   |  ___  || |      |   _ (  
+| |   | |   | |             ) |   | |   | (   ) || |      |  ( \ \ 
+| )   ( |___) (___    /\____) |   | |   | )   ( || (____/\|  /  \ \
+|/     \|\_______/    \_______)   )_(   |/     \|(_______/|_/    \/
+                                                                   
+
+
+
+🚀 Mi-Stack - Die Plattform für Node.js Hosting 🚀  
+🌍 Mission: Landung auf dem Planeten Merkur  
+👩‍🚀 Entwickelt von Missari, bereit zum Abflug!
+
+🛡️ Alle Rechte vorbehalten © 2025 Missari  
+⛔ Unbefugtes Kopieren oder Starten des Codes ist verboten!
+
+🔧 Technologie: Containerisierte Sicherheit mit Docker  
+🌐 Zugriff: /app/<uuid>/ für jede Anwendung
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+🚀 Mi-Stack — Платформа для Node.js хостингу 🚀  
+🌍 Місія: Посадка на планету Меркурій  
+👩‍🚀 Розробник: Міссарі — готова до старту!
+
+🛡️ Всі права захищені © 2025 Missari  
+⛔ Несанкціонований запуск коду заборонено!
+
+🔧 Технології: Безпечна контейнеризація через Docker  
+🌐 Доступ: /app/<uuid>/ для кожного застосунку
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+🛰️ Bleibe kreativ. Träume groß. / Мрій масштабно. Створюй зірки.
+-->
+<link crossorigin=anonymous href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css integrity="sha512-papHh5fZ4jU4rF5c3IGPLeuQH6pLgKZ6p7kn2APO+nX8J+7xVf3b+fZ+k5tZoJ5TZefp4XUQm52A6xmB5PBiIg==" referrerpolicy=no-referrer rel=stylesheet>
+<link href="{{ url_for('static', filename='images/fav.png') }}" rel=icon>
+<script>
+window.isAuthenticated = {{ 'true' if current_user.is_authenticated else 'false' }};
+  window.staticUrlPrefix = "{{ url_for('static', filename='') }}";
+  window.loginUrl = "{{ url_for('login') }}";
+  window.registerUrl = "{{ url_for('register') }}";
+  window.uploadUrl = "{{ url_for('upload_zip') }}";
+</script>
+<link href="{{ url_for('static', filename='index/style.css') }}" rel=stylesheet>
+</head>
+<body class="{% if not current_user.is_authenticated %}guest-mode{% endif %}">
+<div class=preloader-container></div>
+<header class="{% if current_user.is_authenticated %}logged-in{% endif %}">
+<h1>🚀 {% if current_user.is_authenticated %} Mi-<span style=color:rgba(255,0,0,.637)>Stack</span>
+{% else %} Mi-Stack {% endif %}
+</h1>
+<p>Deploy your Backend & Frontend Apps in one click — No VPS, No server setup, just pure code-to-cloud simplicity.</p>
+<div class=auth-links>
+{% if current_user.is_authenticated %}
+<span style=color:#fff;font-weight:600>🛸 {{ current_user.email.split('@')[0] }}</span>
+<a href="{{ url_for('logout') }}">Logout</a>
+{% else %}
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('register') }}">Register</a>
+{% endif %}
+</div>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+<div class=flash-container>
+{% for category, msg in messages %}
+<div class="flash {{ category }}">{{ msg }}</div>
+{% endfor %}
+</div>
+{% endif %} {% endwith %}
+<main id=mainContent></main>
+<div class=modal-bg id=modalBg>
+<div class=modal id=modalContent></div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js></script>
+<script src=https://unpkg.com/split-type></script>
+<script src="{{ url_for('static', filename='index/main.js') }}"></script>
+<script src="{{ url_for('static', filename='index/bodyContent.js') }}"></script>
+<script src="{{ url_for('static', filename='index/preloaderContent.js') }}"></script>
+</body>
+</html>
