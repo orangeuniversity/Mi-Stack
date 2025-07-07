@@ -186,11 +186,11 @@ def login():
 
         if 'application/json' in request.headers.get('Accept', ''):
             resp = {"success": True, "max_slots": max_slots, "used_slots": used_slots}
-            if user.email == 'admin@mistack.com':
+            if user.email == 'missariahil10@gmail.com':
                 resp["admin"] = True
             return jsonify(resp), 200
 
-        if user.email == 'admin@mistack.com':
+        if user.email == 'missariahil10@gmail.com':
             return redirect(url_for('admin_panel'))
         return redirect(url_for('index'))
 
@@ -446,7 +446,7 @@ def delete_app(app_id):
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin_panel():
-    if current_user.email != 'admin@mistack.com':
+    if current_user.email != 'missariahil10@gmail.com':
         return redirect(url_for('index'))
 
     users = User.query.all()
@@ -456,7 +456,7 @@ def admin_panel():
         action = request.form.get('action')
 
         target_user = User.query.get(int(user_id))
-        if not target_user or target_user.email == 'admin@mistack.com':
+        if not target_user or target_user.email == 'missariahil10@gmail.com':
             flash("Invalid operation.", "danger")
             return redirect(url_for('admin_panel'))
 
@@ -486,7 +486,7 @@ def admin_panel():
 
     users_data = []
     for user in users:
-        if user.email == 'admin@mistack.com':
+        if user.email == 'missariahil10@gmail.com':
             continue  # Skip admin user itself
 
         apps_info = []
